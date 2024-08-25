@@ -5,3 +5,4 @@ pub mod build_doc_structure;
 pub mod constants;
 pub mod build_navigation;
 pub mod build_page_body;
+pub mod create_html_document;
