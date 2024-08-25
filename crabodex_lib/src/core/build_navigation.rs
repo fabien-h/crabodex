@@ -1,10 +1,10 @@
 use crate::DocNode;
 
-pub fn build_navigation(root: &DocNode) -> String {
-    let mut html = String::new();
+pub fn build_navigation(node: &DocNode) -> String {
+    let mut html: String = String::new();
     html.push_str("<nav><ul>");
 
-    let mut children: Vec<(&String, &DocNode)> = root.children.iter().collect();
+    let mut children: Vec<(&String, &DocNode)> = node.children.iter().collect();
     children.sort_by(|a, b| {
         match (a.1.position, b.1.position) {
             (Some(pos_a), Some(pos_b)) => pos_a.cmp(&pos_b),
@@ -15,7 +15,7 @@ pub fn build_navigation(root: &DocNode) -> String {
     });
 
     for (_, child) in children {
-        let child_id = child.path.replace(' ', "-").to_lowercase();
+        let child_id: String = child.path.replace(' ', "-").to_lowercase();
         html.push_str(&format!("<li><a href=\"#{}\">{}</a>", child_id, child.title));
 
         if !child.children.is_empty() {
