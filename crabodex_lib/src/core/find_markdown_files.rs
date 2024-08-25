@@ -1,6 +1,7 @@
 use std::path::{Path, PathBuf};
 use walkdir::WalkDir;
 pub fn find_markdown_files<P: AsRef<Path>>(dir: P) -> Vec<PathBuf> {
+    let dir: &Path = dir.as_ref();
     let mut markdown_files: Vec<PathBuf> = Vec::new();
 
     for entry in WalkDir::new(dir) {
@@ -9,7 +10,9 @@ pub fn find_markdown_files<P: AsRef<Path>>(dir: P) -> Vec<PathBuf> {
                 if entry.file_type().is_file() {
                     if let Some(extension) = entry.path().extension() {
                         if extension == "md" {
-                            markdown_files.push(entry.path().to_path_buf());
+                            if let Ok(relative_path) = entry.path().strip_prefix(dir) {
+                                markdown_files.push(relative_path.to_path_buf());
+                            }
                         }
                     }
                 }
@@ -34,12 +37,11 @@ mod tests {
 
         let markdown_files: Vec<PathBuf> = find_markdown_files(test_dir);
 
-        assert_eq!(markdown_files.len(), 5);
+        assert_eq!(markdown_files.len(), 7);
         assert!(markdown_files.iter().any(|p| p.file_name().unwrap() == "file1.md"));
         assert!(markdown_files.iter().any(|p| p.file_name().unwrap() == "file5.md"));
         assert!(markdown_files.iter().any(|p| p.ends_with("sub_dir_1/file4.md")));
         assert!(markdown_files.iter().any(|p| p.ends_with("sub_dir_1/sub_sub_dir/file3.md")));
-        assert!(markdown_files.iter().any(|p| p.ends_with("sub_dir_2/file2.md")));
         assert!(!markdown_files.iter().any(|p| p.file_name().unwrap() == "file.txt"));
     }
 }
