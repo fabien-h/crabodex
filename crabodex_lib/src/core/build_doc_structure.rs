@@ -1,14 +1,15 @@
 use std::fs;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 use crate::core::constants::DEFAULT_FRONT_MATTER_PREFIX;
 use crate::core::parse_front_matter::parse_front_matter;
 use crate::DocNode;
 
-pub fn build_doc_structure(files: &[PathBuf]) -> DocNode {
+pub fn build_doc_structure(files: &[PathBuf], root_directory: &Path) -> DocNode {
     let mut root: DocNode = DocNode::new("Documentation", "");
 
     for file in files {
-        let content: String = match fs::read_to_string(file) {
+        let full_path: PathBuf = root_directory.join(file);
+        let content: String = match fs::read_to_string(&full_path) {
             Ok(content) => content,
             Err(_) => continue,
         };
@@ -44,6 +45,7 @@ pub fn build_doc_structure(files: &[PathBuf]) -> DocNode {
         current.path = current_path;
         current.depth = path.len();
         current.position = position;
+        current.file_path = Some(file.to_string_lossy().to_string());
     }
 
     root
@@ -61,7 +63,7 @@ mod tests {
             .join("test_files");
 
         let markdown_files: Vec<PathBuf> = find_markdown_files(test_dir.clone());
-        let doc_structure: DocNode = build_doc_structure(&markdown_files);
+        let doc_structure: DocNode = build_doc_structure(&markdown_files, test_dir.as_path());
 
         assert!(doc_structure.children.contains_key("Getting Started"));
         let getting_started: &DocNode = &doc_structure.children["Getting Started"];
