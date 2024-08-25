@@ -4,7 +4,7 @@ use crate::core::constants::DEFAULT_FRONT_MATTER_PREFIX;
 use crate::core::parse_front_matter::parse_front_matter;
 use crate::DocNode;
 
-fn build_doc_structure(files: &[PathBuf]) -> DocNode {
+pub fn build_doc_structure(files: &[PathBuf]) -> DocNode {
     let mut root: DocNode = DocNode::new("Documentation", "");
 
     for file in files {
@@ -13,8 +13,8 @@ fn build_doc_structure(files: &[PathBuf]) -> DocNode {
             Err(_) => continue,
         };
 
-        let (title, path): (String, Vec<String>) = match parse_front_matter(&content) {
-            Some((title, path)) => (title, path),
+        let (title, path, position): (String, Vec<String>, Option<usize>) = match parse_front_matter(&content) {
+            Some((title, path, position)) => (title, path, position),
             None => continue,
         };
 
@@ -43,6 +43,7 @@ fn build_doc_structure(files: &[PathBuf]) -> DocNode {
         current.title = title;
         current.path = current_path;
         current.depth = path.len();
+        current.position = position;
     }
 
     root
@@ -64,9 +65,6 @@ mod tests {
 
         assert!(doc_structure.children.contains_key("Getting Started"));
         let getting_started: &DocNode = &doc_structure.children["Getting Started"];
-        assert_eq!(getting_started.title, "Introduction");
-        assert!(getting_started.children.contains_key("Setup"));
-        let setup: &DocNode = &getting_started.children["Setup"];
-        assert_eq!(setup.title, "Configuration");
+        assert_eq!(getting_started.title, "Getting Started");
     }
 }

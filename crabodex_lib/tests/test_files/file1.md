@@ -1,9 +1,7 @@
 ---
-title: Introduction
+position: 0
 path:
   - Getting Started
 ---
-
-# Introduction
 
 This is the introduction.

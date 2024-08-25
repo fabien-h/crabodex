@@ -1,10 +1,7 @@
 ---
-title: Configuration
 path:
   - Getting Started
-  - Setup
+  - Configuration
 ---
-
-# Configuration
 
 Here's how to configure the system.

@@ -7,6 +7,7 @@ pub struct DocNode {
     pub children: HashMap<String, DocNode>,
     pub content: Option<String>,
     pub depth: usize,
+    pub position: Option<usize>,
 }
 
 impl DocNode {
@@ -17,6 +18,7 @@ impl DocNode {
             children: HashMap::new(),
             content: None,
             depth: 0,
+            position: None,
         }
     }
 }

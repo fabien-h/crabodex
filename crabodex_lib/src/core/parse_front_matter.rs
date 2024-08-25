@@ -2,7 +2,7 @@
 use yaml_rust::{Yaml, YamlLoader};
 use crate::core::constants::DEFAULT_FRONT_MATTER_PREFIX;
 
-pub fn parse_front_matter(file_content: &str) -> Option<(String, Vec<String>)> {
+pub fn parse_front_matter(file_content: &str) -> Option<(String, Vec<String>, Option<usize>)> {
     if !file_content.starts_with(DEFAULT_FRONT_MATTER_PREFIX) { return None; }
     let content_after_prefix: &str = &file_content[DEFAULT_FRONT_MATTER_PREFIX.len()..];
     let end_index: Option<usize> = content_after_prefix.find(DEFAULT_FRONT_MATTER_PREFIX);
@@ -14,7 +14,6 @@ pub fn parse_front_matter(file_content: &str) -> Option<(String, Vec<String>)> {
     if yaml.is_empty() { return None; }
     let doc: &Yaml = &yaml[0];
 
-    let title: String = doc["title"].as_str()?.to_string();
     let path: Vec<String> = match doc["path"].as_vec() {
         Some(path_yaml) => {
             let mut path: Vec<String> = Vec::new();
@@ -26,10 +25,13 @@ pub fn parse_front_matter(file_content: &str) -> Option<(String, Vec<String>)> {
             }
             path
         },
-        None => Vec::new(),
+        None => return None,
     };
 
-    Some((title, path))
+    let title: String = path.last()?.clone();
+    let position: Option<usize> = doc["position"].as_i64().map(|p| p as usize);
+
+    Some((title, path, position))
 }
 
 #[cfg(test)]
@@ -39,27 +41,27 @@ mod tests {
     #[test]
     fn test_parse_front_matter() {
         let file_content: &str = r#"---
-title: Test Document
 path:
   - Section 1
   - Section 2
 ---
 
-# Content
 This is the content."#;
 
         let result = parse_front_matter(file_content);
         assert!(result.is_some());
-        let (title, path) = result.unwrap();
-        assert_eq!(title, "Test Document");
+        let (title, path, position) = result.unwrap();
+        assert_eq!(title, "Section 2");
         assert_eq!(path, vec!["Section 1", "Section 2"]);
+        assert_eq!(position, None);
     }
 
     #[test]
     fn test_parse_front_matter_root_path() {
         let file_content: &str = r#"---
-title: Test Document
+position: 1
 path:
+  - Test document
 ---
 
 # Content
@@ -67,8 +69,9 @@ This is the content."#;
 
         let result = parse_front_matter(file_content);
         assert!(result.is_some());
-        let (title, path) = result.unwrap();
-        assert_eq!(title, "Test Document");
-        assert_eq!(path, vec!() as Vec<String>);
+        let (title, path, position) = result.unwrap();
+        assert_eq!(title, "Test document");
+        assert_eq!(path, vec!["Test document"]);
+        assert_eq!(position, Some(1));
     }
 }
