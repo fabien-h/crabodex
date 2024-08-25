@@ -1,0 +1,14 @@
+[package]
+authors.workspace = true
+description = "A library for generating documentation from Markdown files"
+edition.workspace = true
+license.workspace = true
+name = "crabodex_lib"
+version.workspace = true
+
+[dependencies]
+handlebars.workspace = true
+pulldown-cmark.workspace = true
+serde.workspace = true
+serde_yaml.workspace = true
+walkdir.workspace = true

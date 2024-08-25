@@ -1,0 +1,11 @@
+[package]
+authors.workspace = true
+description = "A CLI for generating documentation from Markdown files"
+edition.workspace = true
+license.workspace = true
+name = "crabodex_cli"
+version.workspace = true
+
+[dependencies]
+clap.workspace = true
+crabodex_lib = {path = "../crabodex_lib"}

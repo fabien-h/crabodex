@@ -1,0 +1,19 @@
+[workspace]
+members = [
+  "crabodex_cli",
+  "crabodex_lib",
+]
+
+[workspace.package]
+authors = ["Fabien Huet <fabien.huet@gmail.com>"]
+edition = "2021"
+license = "MIT"
+version = "0.1.0"
+
+[workspace.dependencies]
+clap = {version = "3.1", features = ["derive"]}
+handlebars = "4.3"
+pulldown-cmark = "0.9"
+serde = {version = "1.0", features = ["derive"]}
+serde_yaml = "0.9"
+walkdir = "2.3"
