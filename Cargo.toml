@@ -3,6 +3,7 @@ members = [
   "crabodex_cli",
   "crabodex_lib",
 ]
+resolver = "2"
 
 [workspace.package]
 authors = ["Fabien Huet <fabien.huet@gmail.com>"]
