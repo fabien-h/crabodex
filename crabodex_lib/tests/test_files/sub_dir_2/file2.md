@@ -1,3 +1,10 @@
-# File 2
+---
+title: Configuration
+path:
+  - Getting Started
+  - Setup
+---
 
-This is a test Markdown file.
+# Configuration
+
+Here's how to configure the system.

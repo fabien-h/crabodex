@@ -1,7 +1,7 @@
 use once_cell::sync::Lazy;
 use std::sync::{Mutex, MutexGuard};
 
-const DEFAULT_FRONT_MATTER_PREFIX: &str = "---";
+pub const DEFAULT_FRONT_MATTER_PREFIX: &str = "---";
 
 pub struct FrontMatterConfig {
     pub prefix: String,

@@ -1,3 +1,9 @@
-# File 1
+---
+title: Introduction
+path:
+  - Getting Started
+---
 
-This is a test Markdown file.
+# Introduction
+
+This is the introduction.

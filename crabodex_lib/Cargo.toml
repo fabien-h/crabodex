@@ -12,3 +12,5 @@ pulldown-cmark.workspace = true
 serde.workspace = true
 serde_yaml.workspace = true
 walkdir.workspace = true
+yaml-rust = "0.4.5"
+once_cell = "1.19.0"
