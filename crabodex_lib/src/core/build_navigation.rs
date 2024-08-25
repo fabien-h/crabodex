@@ -2,7 +2,7 @@ use crate::DocNode;
 
 pub fn build_navigation(node: &DocNode) -> String {
     let mut html: String = String::new();
-    html.push_str("<nav><ul>");
+    html.push_str("<ul>");
 
     let mut children: Vec<(&String, &DocNode)> = node.children.iter().collect();
     children.sort_by(|a, b| {
@@ -25,13 +25,14 @@ pub fn build_navigation(node: &DocNode) -> String {
         html.push_str("</li>");
     }
 
-    html.push_str("</ul></nav>");
+    html.push_str("</ul>");
     html
 }
 
 #[cfg(test)]
 mod tests {
     use std::path::PathBuf;
+    use crate::core::build_doc_structure::build_doc_structure;
     use crate::find_markdown_files;
     use super::*;
 
@@ -42,9 +43,9 @@ mod tests {
             .join("test_files");
 
         let markdown_files: Vec<PathBuf> = find_markdown_files(test_dir.clone());
-        let doc_structure: DocNode = crate::core::build_doc_structure::build_doc_structure(&markdown_files);
+        let doc_structure: DocNode = build_doc_structure(&markdown_files, test_dir.as_path());
         let navigation: String = build_navigation(&doc_structure);
 
-        assert_eq!(navigation, "<nav><ul><li><a href=\"#getting-started\">Getting Started</a><nav><ul><li><a href=\"#getting-started->-configuration\">Configuration</a></li></ul></nav></li><li><a href=\"#features\">Features</a><nav><ul><li><a href=\"#features->-feature-one\">Feature one</a></li></ul></nav></li><li><a href=\"#domain\">Domain</a><nav><ul><li><a href=\"#domain->-subdomain-one\">Subdomain one</a></li><li><a href=\"#domain->-subdomain-two\">Subdomain two</a></li></ul></nav></li></ul></nav>");
+        assert_eq!(navigation, "<ul><li><a href=\"#getting-started\">Getting Started</a><ul><li><a href=\"#getting-started->-configuration\">Configuration</a></li></ul></li><li><a href=\"#features\">Features</a><ul><li><a href=\"#features->-feature-one\">Feature one</a></li></ul></li><li><a href=\"#domain\">Domain</a><ul><li><a href=\"#domain->-subdomain-one\">Subdomain one</a></li><li><a href=\"#domain->-subdomain-two\">Subdomain two</a></li></ul></li></ul>");
     }
 }
