@@ -1,12 +1,26 @@
-use std::path::{Path, PathBuf};
+use std::path::{Component, Path, PathBuf};
+
 use walkdir::WalkDir;
-pub fn find_markdown_files<P: AsRef<Path>>(dir: P) -> Vec<PathBuf> {
+use std::collections::HashSet;
+
+pub fn find_markdown_files<P: AsRef<Path>>(
+    dir: P,
+    ignore_folders: Option<&[&str]>,
+) -> Vec<PathBuf> {
     let dir: &Path = dir.as_ref();
     let mut markdown_files: Vec<PathBuf> = Vec::new();
+    let ignore_set: HashSet<&str> = ignore_folders.unwrap_or(&[]).iter().copied().collect();
 
     for entry in WalkDir::new(dir) {
         match entry {
             Ok(entry) => {
+                let path = entry.path();
+
+                // Check if the current directory should be ignored
+                if entry.file_type().is_dir() && should_ignore(path, dir, &ignore_set) {
+                    continue;
+                }
+
                 if entry.file_type().is_file() {
                     if let Some(extension) = entry.path().extension() {
                         if extension == "md" {
@@ -24,10 +38,27 @@ pub fn find_markdown_files<P: AsRef<Path>>(dir: P) -> Vec<PathBuf> {
     markdown_files
 }
 
+fn should_ignore(path: &Path, base_dir: &Path, ignore_set: &HashSet<&str>) -> bool {
+    let relative_path: &Path = match path.strip_prefix(base_dir) {
+        Ok(rel_path) => rel_path,
+        Err(_) => return false,
+    };
+    let first_component: Component = match relative_path.components().next() {
+        Some(component) => component,
+        None => return false,
+    };
+    let dir_name: &str = match first_component.as_os_str().to_str() {
+        Some(name) => name,
+        None => return false,
+    };
+    ignore_set.contains(dir_name)
+}
+
 #[cfg(test)]
 mod tests {
-    use super::*;
     use std::path::PathBuf;
+
+    use super::*;
 
     #[test]
     fn test_find_markdown_files() {
@@ -35,7 +66,7 @@ mod tests {
             .join("tests")
             .join("test_files");
 
-        let markdown_files: Vec<PathBuf> = find_markdown_files(test_dir);
+        let markdown_files: Vec<PathBuf> = find_markdown_files(test_dir, None);
 
         assert_eq!(markdown_files.len(), 7);
         assert!(markdown_files.iter().any(|p| p.file_name().unwrap() == "file1.md"));

@@ -62,7 +62,7 @@ mod tests {
             .join("tests")
             .join("test_files");
 
-        let markdown_files: Vec<PathBuf> = find_markdown_files(test_dir.clone());
+        let markdown_files: Vec<PathBuf> = find_markdown_files(test_dir.clone(), None);
         let doc_structure: DocNode = build_doc_structure(&markdown_files, test_dir.as_path());
 
         assert!(doc_structure.children.contains_key("Getting Started"));
