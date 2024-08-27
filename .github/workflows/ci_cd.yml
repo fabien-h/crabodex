@@ -93,7 +93,7 @@ jobs:
           git commit -am "Update build badge in README [skip ci]" || echo "No changes to commit"
           git push
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: crabodex
           path: target/release/crabodex
