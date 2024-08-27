@@ -60,7 +60,6 @@ jobs:
         with:
           components: clippy,rustc-dev
       - run: cargo clippy --all-features --tests --benches -- -Dclippy::all -Dclippy::pedantic
-      - run: cargo clippy --manifest-path codegen/Cargo.toml -- -Dclippy::all -Dclippy::pedantic
 
   outdated:
     name: Outdated
@@ -72,7 +71,6 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
       - uses: dtolnay/install@cargo-outdated
       - run: cargo outdated --workspace --exit-code 1
-      - run: cargo outdated --manifest-path codegen/Cargo.toml --exit-code 1
 
   build:
     name: Build Project
