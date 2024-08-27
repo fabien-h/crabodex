@@ -26,17 +26,21 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
       - name: Run tests
         run: cargo test --verbose
-      - name: Update README badge
-        if: success()
+        id: run_tests
+      - name: Update README test badge
         run: |
-          sed -i 's/tests-failing-red/tests-passing-green/g' README.md
+          if [ "${{ steps.run_tests.outcome }}" == "success" ]; then
+            sed -i 's/tests-failing-red/tests-passing-green/g' README.md
+          else
+            sed -i 's/tests-passing-green/tests-failing-red/g' README.md
+          fi
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add README.md
-          git commit -m "Update tests badge in README [skip ci]"
-          git push
+          git commit -m "Update tests badge in README [skip ci]" || echo "No changes to commit"
+          git push || echo "No changes to push"
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
   clippy:
     name: Clippy
@@ -70,18 +74,24 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
       - name: Build
         run: cargo build --release --verbose
-      - name: Update README badge
+        id: build
+      - name: Update README build badge
         run: |
-          sed -i 's/build-failing-red/build-passing-green/g' README.md
+          if [ "${{ steps.build.outcome }}" == "success" ]; then
+            sed -i 's/build-failing-red/build-passing-green/g' README.md
+          else
+            sed -i 's/build-passing-green/build-failing-red/g' README.md
+          fi
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add README.md
-          git commit -m "Update tests badge in README [skip ci]"
-          git push
+          git commit -m "Update build badge in README [skip ci]" || echo "No changes to commit"
+          git push || echo "No changes to push"
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        if: success()
+        uses: actions/upload-artifact@v3
         with:
           name: crabodex
           path: target/release/crabodex
@@ -94,7 +104,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Download artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v3
         with:
           name: crabodex
       - name: Create Release
