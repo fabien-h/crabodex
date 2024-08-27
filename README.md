@@ -24,3 +24,7 @@ Crabodex is a documentation generator for Markdown files. It recursively process
 ## License
 
 This project is licensed under the MIT License.
+
+### Work on the project
+
+Run `cargo clippy --all-features --tests --benches -- -Dclippy::all -Dclippy::pedantic` before you commit!

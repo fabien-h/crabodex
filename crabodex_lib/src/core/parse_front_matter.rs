@@ -29,7 +29,7 @@ pub fn parse_front_matter(file_content: &str) -> Option<(String, Vec<String>, Op
     };
 
     let title: String = path.last()?.clone();
-    let position: Option<usize> = doc["position"].as_i64().map(|p| p as usize);
+    let position: Option<usize> = doc["position"].as_i64().and_then(|p| p.try_into().ok());
 
     Some((title, path, position))
 }

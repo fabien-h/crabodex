@@ -2,6 +2,7 @@ use html_minifier::HTMLMinifier;
 use regex::Regex;
 use chrono::Local;
 
+#[allow(clippy::too_many_lines)]
 pub fn create_html_document(
     navigation: &str,
     page_body: &str,
@@ -564,14 +565,7 @@ pub fn create_html_document(
         }});
     </script>
 </body>
-</html>"#,
-        repo_name = repo_name,
-        repo_description = repo_description,
-        commit_hash = commit_hash,
-        repo_url = repo_url,
-        navigation = navigation,
-        page_body = page_body
-    );
+</html>"#);
 
     html_minifier.digest(body).unwrap();
     let minified_html = String::from_utf8_lossy(html_minifier.get_html()).into_owned();

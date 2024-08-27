@@ -46,7 +46,7 @@ pub fn build_page_body(
             let mut content_html: String = String::new();
             let parser: Parser = Parser::new_ext(content, options);
             push_html(&mut content_html, parser);
-            html.push_str(&format!("<div class=\"depth-{}\">{}</div>", depth, content_html));
+            html.push_str(&format!("<div class=\"depth-{depth}\">{content_html}</div>" ));
         }
     }
 
