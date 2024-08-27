@@ -81,7 +81,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.PAT }}
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: crabodex
           path: target/release/crabodex
