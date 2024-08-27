@@ -1,0 +1,130 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  pre_ci:
+    name: Prepare CI environment
+    runs-on: ubuntu-latest
+    outputs:
+      continue: ${{ steps.continue.outputs.continue }}
+    steps:
+      - id: continue
+        run: echo "continue=true" >> $GITHUB_OUTPUT
+
+  test:
+    name: Run Tests
+    needs: pre_ci
+    if: needs.pre_ci.outputs.continue
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Run tests
+        run: cargo test --verbose
+      - name: Update README badge
+        if: success()
+        run: |
+          sed -i 's/tests-failing-red/tests-passing-green/g' README.md
+          git config --global user.name 'GitHub Action'
+          git config --global user.email 'action@github.com'
+          git commit -am "Update tests badge in README [skip ci]" || echo "No changes to commit"
+          git push
+
+  miri:
+    name: Miri
+    needs: pre_ci
+    if: needs.pre_ci.outputs.continue
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@miri
+      - run: cargo miri setup
+      - run: cargo miri test --all-features ${{github.event_name == 'pull_request' && '--tests' || ''}}
+        env:
+          MIRIFLAGS: -Zmiri-strict-provenance
+
+  clippy:
+    name: Clippy
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@nightly
+        with:
+          components: clippy,rustc-dev
+      - run: cargo clippy --all-features --tests --benches -- -Dclippy::all -Dclippy::pedantic
+      - run: cargo clippy --manifest-path codegen/Cargo.toml -- -Dclippy::all -Dclippy::pedantic
+
+  outdated:
+    name: Outdated
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: dtolnay/install@cargo-outdated
+      - run: cargo outdated --workspace --exit-code 1
+      - run: cargo outdated --manifest-path fuzz/Cargo.toml --exit-code 1
+      - run: cargo outdated --manifest-path codegen/Cargo.toml --exit-code 1
+
+  build:
+    name: Build Project
+    needs: [test, miri, clippy, outdated]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Build
+        run: cargo build --release --verbose
+      - name: Update README badge
+        if: success()
+        run: |
+          sed -i 's/build-failing-red/build-passing-green/g' README.md
+          git config --global user.name 'GitHub Action'
+          git config --global user.email 'action@github.com'
+          git commit -am "Update build badge in README [skip ci]" || echo "No changes to commit"
+          git push
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: crabodex
+          path: target/release/crabodex
+
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: crabodex
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ github.run_number }}
+          release_name: Release ${{ github.run_number }}
+          draft: false
+          prerelease: false
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./crabodex
+          asset_name: crabodex
+          asset_content_type: application/octet-stream

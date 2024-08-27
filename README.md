@@ -4,6 +4,9 @@
 ![Static Badge](https://img.shields.io/badge/licence-MIT-dddddd?logo=opensourceinitiative&logoColor=%23ffffff)
 ![Tests](https://img.shields.io/badge/tests-failing-red)
 ![Build](https://img.shields.io/badge/build-failing-red)
+![Miri](https://img.shields.io/badge/miri-failing-red)
+![Clippy](https://img.shields.io/badge/clippy-failing-red)
+![Dependencies](https://img.shields.io/badge/dependencies-outdated-red)
 
 
 Crabodex is a documentation generator for Markdown files. It recursively processes Markdown files in a given directory and generates HTML documentation.
