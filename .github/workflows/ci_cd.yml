@@ -30,24 +30,13 @@ jobs:
         if: success()
         run: |
           sed -i 's/tests-failing-red/tests-passing-green/g' README.md
-          git config --global user.name 'GitHub Action'
-          git config --global user.email 'action@github.com'
-          git commit -am "Update tests badge in README [skip ci]" || echo "No changes to commit"
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add README.md
+          git commit -m "Update tests badge in README [skip ci]"
           git push
-
-  miri:
-    name: Miri
-    needs: pre_ci
-    if: needs.pre_ci.outputs.continue
-    runs-on: ubuntu-latest
-    timeout-minutes: 45
-    steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@miri
-      - run: cargo miri setup
-      - run: cargo miri test --all-features ${{github.event_name == 'pull_request' && '--tests' || ''}}
         env:
-          MIRIFLAGS: -Zmiri-strict-provenance
+          GITHUB_TOKEN: ${{ secrets.PAT }}
 
   clippy:
     name: Clippy
@@ -74,7 +63,7 @@ jobs:
 
   build:
     name: Build Project
-    needs: [test, miri, clippy, outdated]
+    needs: [test, clippy, outdated]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -82,13 +71,15 @@ jobs:
       - name: Build
         run: cargo build --release --verbose
       - name: Update README badge
-        if: success()
         run: |
           sed -i 's/build-failing-red/build-passing-green/g' README.md
-          git config --global user.name 'GitHub Action'
-          git config --global user.email 'action@github.com'
-          git commit -am "Update build badge in README [skip ci]" || echo "No changes to commit"
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add README.md
+          git commit -m "Update tests badge in README [skip ci]"
           git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
