@@ -40,13 +40,13 @@ mod tests {
 
     #[test]
     fn test_parse_front_matter() {
-        let file_content: &str = r#"---
+        let file_content: &str = "---
 path:
   - Section 1
   - Section 2
 ---
 
-This is the content."#;
+This is the content.";
 
         let result = parse_front_matter(file_content);
         assert!(result.is_some());
@@ -58,14 +58,13 @@ This is the content."#;
 
     #[test]
     fn test_parse_front_matter_root_path() {
-        let file_content: &str = r#"---
+        let file_content: &str = "---
 position: 1
 path:
   - Test document
 ---
 
-# Content
-This is the content."#;
+This is the content.";
 
         let result = parse_front_matter(file_content);
         assert!(result.is_some());
