@@ -1,8 +1,6 @@
 use std::io::{self, Write};
 use std::path::PathBuf;
 use clap::Parser;
-use crabodex_lib;
-
 #[derive(Parser)]
 #[clap(author, version, about, long_about = None)]
 struct Cli {

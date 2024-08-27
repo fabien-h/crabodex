@@ -6,7 +6,7 @@ pub fn parse_front_matter(file_content: &str) -> Option<(String, Vec<String>, Op
     if !file_content.starts_with(DEFAULT_FRONT_MATTER_PREFIX) { return None; }
     let content_after_prefix: &str = &file_content[DEFAULT_FRONT_MATTER_PREFIX.len()..];
     let end_index: Option<usize> = content_after_prefix.find(DEFAULT_FRONT_MATTER_PREFIX);
-    if end_index.is_none() { return None; }
+    end_index?;
     let end_index: usize = end_index.unwrap();
     let front_matter: &str = &content_after_prefix[..end_index];
 
