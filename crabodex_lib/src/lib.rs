@@ -6,8 +6,46 @@ use crate::core::create_html_document::create_html_document;
 use crate::core::doc_node::DocNode;
 use crate::core::find_markdown_files::find_markdown_files;
 
-mod core;
+pub mod core;
 
+/// Generates a static documentation website from a directory containing markdown files.
+/// 
+/// 1. Finds all markdown files in the directory.
+/// 2. Builds a tree structure of the documentation.
+/// 3. Generates the navigation bar.
+/// 4. Generates the page body.
+/// 5. Creates the HTML document.
+/// 6. Returns the HTML document as a string.
+/// 7. Ignores folders specified in the `ignore_folders` argument.
+/// 8. The `ignore_folders` argument is optional. If it is not provided, no folders will be ignored.
+/// 
+/// # Arguments
+/// * `root_directory` - The directory containing the markdown files.
+/// * `repo_name` - The name of the repository.
+/// * `repo_description` - The description of the repository.
+/// * `commit_hash` - The commit hash of the repository.
+/// * `repo_url` - The URL of the repository.
+/// * `ignore_folders` - The folders to ignore.
+/// 
+/// # Returns
+/// * `String` - The HTML document as a string.
+/// 
+/// # Example
+/// ```rust
+/// use crabodex_lib::generate;
+/// use std::path::PathBuf;
+/// let test_dir: PathBuf = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+///   .join("tests")
+///   .join("test_files");
+/// let result: String = generate(
+///    test_dir,
+///    "Test repository",
+///    "This repository helps us testing crabodex generation.",
+///    "ebb34e7",
+///    "https://github.com/crabodex/crabodex",
+/// None);
+/// ```
+/// 
 pub fn generate<P: AsRef<Path>>(
     root_directory: P,
     repo_name: &str,
@@ -51,6 +89,6 @@ mod tests {
             None
         );
 
-        assert!(result.contains("<title>Crabodex -- Test repository</title>"));
+        assert!(result.contains("<title>Test repository</title>"));
     }
 }

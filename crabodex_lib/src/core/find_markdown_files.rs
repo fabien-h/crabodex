@@ -3,6 +3,21 @@ use std::path::{Component, Path, PathBuf};
 use walkdir::WalkDir;
 use std::collections::HashSet;
 
+/// Find all markdown files in a directory and its subdirectories.
+/// 
+/// # Arguments
+/// * `dir` - The directory to search for markdown files.
+/// * `ignore_folders` - The folders to ignore.
+/// 
+/// # Returns
+/// * `Vec<PathBuf>` - The list of markdown files.
+/// 
+/// # Panics
+/// * If the directory does not exist.
+/// * If the directory is not readable.
+/// * If the directory is not a directory.
+/// * If the directory is not a valid.
+/// 
 pub fn find_markdown_files<P: AsRef<Path>>(
     dir: P,
     ignore_folders: Option<&[&str]>,

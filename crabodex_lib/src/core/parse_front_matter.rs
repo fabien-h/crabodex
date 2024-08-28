@@ -2,6 +2,33 @@
 use yaml_rust::{Yaml, YamlLoader};
 use crate::core::constants::DEFAULT_FRONT_MATTER_PREFIX;
 
+/// Parses the front matter of a markdown file.
+/// 
+/// The front matter must be in YAML format.
+/// The front matter must start with "---" and end with "---".
+/// The front matter must contain a "path" field.
+/// The "path" field must be a list of strings.
+/// The last string in the "path" field is the title of the document.
+/// The front matter may contain a "position" field.
+/// The "position" field must be an integer.
+/// 
+/// # Arguments
+/// * `file_content` - The content of the markdown file.
+/// 
+/// # Returns
+/// * `Some((title, path, position))` - The title, path and position of the document.
+/// * `None` - If the front matter is not found or is invalid.
+/// 
+/// # Panics
+/// If the front matter is invalid.
+/// If the "path" field is not found.
+/// If the "path" field is not a list of strings.
+/// If the "position" field is not an integer.
+/// If the "position" field is not a valid integer.
+/// If the "position" field is not a valid usize.
+/// If the "position" field is not a valid index for the "path" field.
+/// 
+#[must_use]
 pub fn parse_front_matter(file_content: &str) -> Option<(String, Vec<String>, Option<usize>)> {
     if !file_content.starts_with(DEFAULT_FRONT_MATTER_PREFIX) { return None; }
     let content_after_prefix: &str = &file_content[DEFAULT_FRONT_MATTER_PREFIX.len()..];

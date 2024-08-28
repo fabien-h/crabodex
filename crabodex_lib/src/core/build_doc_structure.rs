@@ -4,6 +4,18 @@ use crate::core::constants::DEFAULT_FRONT_MATTER_PREFIX;
 use crate::core::parse_front_matter::parse_front_matter;
 use crate::DocNode;
 
+/// Build the document structure recursively.
+/// 
+/// # Arguments
+/// * `files` - The list of markdown files to process.
+/// * `root_directory` - The root directory where the markdown files are stored.
+/// 
+/// # Returns
+/// The document structure as a `DocNode`.
+/// 
+/// # Panics
+/// If the front matter is invalid.
+#[must_use]
 pub fn build_doc_structure(files: &[PathBuf], root_directory: &Path) -> DocNode {
     let mut root: DocNode = DocNode::new("Documentation", "");
 
@@ -20,7 +32,7 @@ pub fn build_doc_structure(files: &[PathBuf], root_directory: &Path) -> DocNode 
         };
 
         let mut current: &mut DocNode = &mut root;
-        let mut current_path: String = String::new();
+        let mut current_path: String = String::default();
 
         for (i, section) in path.iter().enumerate() {
             if i > 0 { current_path.push_str(" > ") }

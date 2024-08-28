@@ -2,12 +2,26 @@ use pulldown_cmark::{html::push_html, Options, Parser};
 
 use crate::DocNode;
 
+/// Builds the body of the HTML page from the document structure.
+/// 
+/// # Arguments
+/// * `root` - The root of the document structure.
+/// * `depth` - The depth of the current node in the document structure.
+/// * `repo_url` - The URL of the repository where the markdown files are stored.
+/// 
+/// # Returns
+/// The body of the HTML page.
+/// 
+/// # Panics
+/// If the front matter is invalid.
+/// 
+#[must_use]
 pub fn build_page_body(
     root: &DocNode,
     depth: usize,
     repo_url: &str,
 ) -> String {
-    let mut html: String = String::new();
+    let mut html: String = String::default();
     let mut options: Options = Options::empty();
     options.insert(Options::ENABLE_TABLES);
     options.insert(Options::ENABLE_TASKLISTS);
@@ -43,7 +57,7 @@ pub fn build_page_body(
         }
 
         if let Some(content) = &root.content {
-            let mut content_html: String = String::new();
+            let mut content_html: String = String::default();
             let parser: Parser = Parser::new_ext(content, options);
             push_html(&mut content_html, parser);
             html.push_str(&format!("<div class=\"depth-{depth}\">{content_html}</div>" ));

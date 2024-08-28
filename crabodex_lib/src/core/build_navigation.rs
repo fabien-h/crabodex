@@ -1,7 +1,16 @@
 use crate::DocNode;
 
+/// Build the navigation for the documentation recursively.
+/// 
+/// # Arguments
+/// * `node` - The current node in the document structure.
+/// 
+/// # Returns
+/// The navigation for the documentation as an HTML string.
+/// 
+#[must_use]
 pub fn build_navigation(node: &DocNode) -> String {
-    let mut html: String = String::new();
+    let mut html: String = String::default();
     html.push_str("<ul>");
 
     let mut children: Vec<(&String, &DocNode)> = node.children.iter().collect();

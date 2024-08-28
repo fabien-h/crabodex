@@ -2,6 +2,24 @@ use html_minifier::HTMLMinifier;
 use regex::Regex;
 use chrono::Local;
 
+/// Create an HTML document. This function generates the HTML document using
+/// the provided navigation and page body.
+///
+/// # Arguments
+/// * `navigation` - The navigation section of the HTML document.
+/// * `page_body` - The body section of the HTML document.
+/// * `repo_name` - The name of the repository.
+/// * `repo_description` - The description of the repository.
+/// * `commit_hash` - The commit hash of the repository.
+/// * `repo_url` - The URL of the repository.
+/// 
+/// # Returns
+/// A string containing the HTML document.
+/// 
+///  # Panics
+/// If the provided HTML is invalid.
+/// 
+#[must_use]
 #[allow(clippy::too_many_lines)]
 pub fn create_html_document(
     navigation: &str,
@@ -20,7 +38,7 @@ pub fn create_html_document(
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crabodex -- {repo_name}</title>
+    <title>{repo_name}</title>
     <style>
         *,
         *::before,
