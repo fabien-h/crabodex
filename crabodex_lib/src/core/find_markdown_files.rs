@@ -47,7 +47,7 @@ pub fn find_markdown_files<P: AsRef<Path>>(
         }
     }
 
-    println!("markdown_files: {:?}", markdown_files);
+    println!("markdown_files: {markdown_files:?}");
 
     markdown_files
 }
