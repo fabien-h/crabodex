@@ -12,13 +12,13 @@ use chrono::Local;
 /// * `repo_description` - The description of the repository.
 /// * `commit_hash` - The commit hash of the repository.
 /// * `repo_url` - The URL of the repository.
-/// 
+///
 /// # Returns
 /// A string containing the HTML document.
-/// 
+///
 ///  # Panics
 /// If the provided HTML is invalid.
-/// 
+///
 #[must_use]
 #[allow(clippy::too_many_lines)]
 pub fn create_html_document(
@@ -536,7 +536,6 @@ pub fn create_html_document(
         </header>
         {page_body}
         <footer>
-            <p>Generated with crabodex</p>
         </footer>
     </main>
     <script>
