@@ -37,6 +37,7 @@ jobs:
           REPO_NAME: ${{ github.repository }}
           REPO_DESCRIPTION: ${{ github.event.repository.description }}
           GITHUB_SERVER_URL: ${{ github.server_url }}
+          ACTIONS_RUNNER_DEBUG: true
         run: |
           COMMIT_HASH_SHORT=$(git rev-parse --short HEAD)
           mkdir docs

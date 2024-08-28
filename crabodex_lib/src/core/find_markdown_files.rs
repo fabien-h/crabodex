@@ -24,7 +24,7 @@ pub fn find_markdown_files<P: AsRef<Path>>(
     let dir: &Path = dir.as_ref();
     let mut markdown_files: Vec<PathBuf> = Vec::new();
     
-    println!("ignore_folders: {:?}", ignore_folders);
+    println!("::debug::ignore_folders: {ignore_folders:?}");
 
     for entry in WalkDir::new(dir).follow_links(true) {
 
@@ -39,9 +39,6 @@ pub fn find_markdown_files<P: AsRef<Path>>(
             entry.path().to_str().map_or(false, |path| path.contains(needle))
         );
         if is_ignored { continue; }
-
-        println!("entry: {:?}", entry);
-        println!("entry path: {:?}", entry.path());
 
         if entry.file_type().is_file() && entry.path().extension().map_or(false, |ext| ext == "md") {
             if let Ok(relative_path) = entry.path().strip_prefix(dir) {
