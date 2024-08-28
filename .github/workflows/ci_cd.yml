@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [ main ]
 
+permissions:
+  contents: write
+
 jobs:
   pre_ci:
     name: Prepare CI environment
@@ -24,9 +27,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
+
       - name: Run tests
         run: cargo test --verbose
         id: run_tests
+
       - name: Update README test badge
         run: |
           if [ "${{ steps.run_tests.outcome }}" == "success" ]; then
@@ -34,6 +39,7 @@ jobs:
           else
             sed -i 's/tests-passing-green/tests-failing-red/g' README.md
           fi
+          git pull
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add README.md
@@ -72,9 +78,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
+
       - name: Build
-        run: cargo build --release --verbose
+        run: |
+          cargo build --release --verbose --bin crabodex_cli
+          mv target/release/crabodex_cli target/release/crabodex
         id: build
+
+      - name: List build artifacts
+        run: |
+          echo "Contents of target/release:"
+          ls -l target/release
+
       - name: Update README build badge
         run: |
           if [ "${{ steps.build.outcome }}" == "success" ]; then
@@ -82,6 +97,7 @@ jobs:
           else
             sed -i 's/build-passing-green/build-failing-red/g' README.md
           fi
+          git pull
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add README.md
@@ -89,6 +105,7 @@ jobs:
           git push || echo "No changes to push"
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
       - name: Upload artifact
         if: success()
         uses: actions/upload-artifact@v3
@@ -103,10 +120,12 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v4
+
       - name: Download artifact
         uses: actions/download-artifact@v3
         with:
           name: crabodex
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -117,6 +136,7 @@ jobs:
           release_name: Release ${{ github.run_number }}
           draft: false
           prerelease: false
+
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         env:
