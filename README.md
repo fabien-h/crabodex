@@ -2,7 +2,7 @@
 
 ![Static Badge](https://img.shields.io/badge/Github-fabien--h%2Fcrabodex-dddddd?logo=github)
 ![Static Badge](https://img.shields.io/badge/licence-MIT-dddddd?logo=opensourceinitiative&logoColor=%23ffffff)
-![Tests](https://img.shields.io/badge/tests-failing-red)
+![Tests](https://img.shields.io/badge/tests-passing-green)
 ![Build](https://img.shields.io/badge/build-failing-red)
 
 
