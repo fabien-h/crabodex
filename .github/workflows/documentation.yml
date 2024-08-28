@@ -38,7 +38,6 @@ jobs:
           REPO_DESCRIPTION: ${{ github.event.repository.description }}
           COMMIT_HASH: ${{ github.sha }}
           GITHUB_SERVER_URL: ${{ github.server_url }}
-          OWNER: ${{ github.repository_owner }}
         run: |
           mkdir docs
           ./crabodex \
@@ -46,7 +45,7 @@ jobs:
             --repo-name "$REPO_NAME" \
             --repo-description "$REPO_DESCRIPTION" \
             --commit-hash "$COMMIT_HASH" \
-            --repo-url "$GITHUB_SERVER_URL/$OWNER/$REPO_NAME/" \
+            --repo-url "$GITHUB_SERVER_URL/$REPO_NAME/" \
             > ./docs/index.html
 
       - name: Deploy to GitHub Pages
