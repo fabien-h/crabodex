@@ -86,7 +86,7 @@ mod tests {
             "This repository helps us testing crabodex generation.",
             "ebb34e7",
             "https://github.com/test_repo",
-            None
+            Some(&["ignored_test_files"]),
         );
 
         assert!(result.contains("<title>Test repository</title>"));

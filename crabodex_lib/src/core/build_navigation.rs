@@ -51,7 +51,7 @@ mod tests {
             .join("tests")
             .join("test_files");
 
-        let markdown_files: Vec<PathBuf> = find_markdown_files(test_dir.clone(), None);
+        let markdown_files: Vec<PathBuf> = find_markdown_files(test_dir.clone(), Some(&["ignored_test_files"]));
         let doc_structure: DocNode = build_doc_structure(&markdown_files, test_dir.as_path());
         let navigation: String = build_navigation(&doc_structure);
 

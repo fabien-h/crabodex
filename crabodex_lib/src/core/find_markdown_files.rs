@@ -1,7 +1,6 @@
-use std::path::{Component, Path, PathBuf};
+use std::path::{ Path, PathBuf};
 
 use walkdir::WalkDir;
-use std::collections::HashSet;
 
 /// Find all markdown files in a directory and its subdirectories.
 /// 
@@ -24,49 +23,25 @@ pub fn find_markdown_files<P: AsRef<Path>>(
 ) -> Vec<PathBuf> {
     let dir: &Path = dir.as_ref();
     let mut markdown_files: Vec<PathBuf> = Vec::new();
-    let ignore_set: HashSet<&str> = ignore_folders.unwrap_or(&[]).iter().copied().collect();
 
-    for entry in WalkDir::new(dir) {
-        match entry {
-            Ok(entry) => {
-                let path = entry.path();
-
-                // Check if the current directory should be ignored
-                if entry.file_type().is_dir() && should_ignore(path, dir, &ignore_set) {
-                    continue;
-                }
-
-                if entry.file_type().is_file() {
-                    if let Some(extension) = entry.path().extension() {
-                        if extension == "md" {
-                            if let Ok(relative_path) = entry.path().strip_prefix(dir) {
-                                markdown_files.push(relative_path.to_path_buf());
-                            }
-                        }
-                    }
-                }
-            }
+    for entry in WalkDir::new(dir).follow_links(true) {
+        let entry = match entry {
+            Ok(entry) => entry,
             Err(_) => continue,
+        };
+        
+        let is_ignored: bool = ignore_folders.map(|slice| slice.iter().any(|&needle| entry.path().to_str().unwrap().contains(needle)))
+            .unwrap_or(false);
+        if is_ignored { continue; }
+
+        if entry.file_type().is_file() && entry.path().extension().map_or(false, |ext| ext == "md") {
+            if let Ok(relative_path) = entry.path().strip_prefix(dir) {
+                markdown_files.push(relative_path.to_path_buf());
+            }
         }
     }
 
     markdown_files
-}
-
-fn should_ignore(path: &Path, base_dir: &Path, ignore_set: &HashSet<&str>) -> bool {
-    let relative_path: &Path = match path.strip_prefix(base_dir) {
-        Ok(rel_path) => rel_path,
-        Err(_) => return false,
-    };
-    let first_component: Component = match relative_path.components().next() {
-        Some(component) => component,
-        None => return false,
-    };
-    let dir_name: &str = match first_component.as_os_str().to_str() {
-        Some(name) => name,
-        None => return false,
-    };
-    ignore_set.contains(dir_name)
 }
 
 #[cfg(test)]
@@ -83,11 +58,26 @@ mod tests {
 
         let markdown_files: Vec<PathBuf> = find_markdown_files(test_dir, None);
 
-        assert_eq!(markdown_files.len(), 7);
+        assert_eq!(markdown_files.len(), 8);
         assert!(markdown_files.iter().any(|p| p.file_name().unwrap() == "file1.md"));
         assert!(markdown_files.iter().any(|p| p.file_name().unwrap() == "file5.md"));
         assert!(markdown_files.iter().any(|p| p.ends_with("sub_dir_1/file4.md")));
         assert!(markdown_files.iter().any(|p| p.ends_with("sub_dir_1/sub_sub_dir/file3.md")));
         assert!(!markdown_files.iter().any(|p| p.file_name().unwrap() == "file.txt"));
+    }
+
+    #[test]
+    fn test_ignore_folders() {
+        let test_dir: PathBuf = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("tests")
+            .join("test_files");
+        
+        let markdown_files_without_ignore: Vec<PathBuf> = find_markdown_files(&test_dir, None);
+        assert!(markdown_files_without_ignore.iter().any(|p| p.ends_with("ignored_test_files/file_8.md")));
+        
+        let ignore_folders: &[&str; 1] = &["ignored_test_files"];
+        let markdown_files_with_ignore: Vec<PathBuf> = find_markdown_files(&test_dir, Some(ignore_folders));
+        assert!(!markdown_files_with_ignore.iter().any(|p| p.ends_with("ignored_test_files/file_8.md")));
+        assert!(markdown_files_with_ignore.iter().any(|p| p.ends_with("file1.md")));
     }
 }
