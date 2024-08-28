@@ -1,0 +1,45 @@
+name: documentation
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE20: true
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  generate-and-deploy-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get latest release
+        id: get_release
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const release = await github.rest.repos.getLatestRelease({
+              owner: "fabien-h",
+              repo: "crabodex",
+            });
+            core.setOutput('release_tag', release.data.tag_name);
+
+      - name: Download crabodex from release
+        run: |
+          curl -L https://github.com/${{ github.repository }}/releases/download/${{ steps.get_release.outputs.release_tag }}/crabodex -o crabodex
+          chmod +x crabodex
+
+      - name: Generate documentation
+        run: |
+          mkdir docs
+          ./crabodex --ignore-folders tests > ./docs/index.html
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+          force_orphan: true
