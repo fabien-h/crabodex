@@ -43,7 +43,7 @@ pub mod core;
 ///    "This repository helps us testing crabodex generation.",
 ///    "ebb34e7",
 ///    "https://github.com/crabodex/crabodex",
-///     &*[]
+///     &[]
 /// );
 /// ```
 /// 
