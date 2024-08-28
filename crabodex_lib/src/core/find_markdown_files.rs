@@ -3,20 +3,20 @@ use std::path::{ Path, PathBuf};
 use walkdir::WalkDir;
 
 /// Find all markdown files in a directory and its subdirectories.
-/// 
+///
 /// # Arguments
 /// * `dir` - The directory to search for markdown files.
 /// * `ignore_folders` - The folders to ignore.
-/// 
+///
 /// # Returns
 /// * `Vec<PathBuf>` - The list of markdown files.
-/// 
+///
 /// # Panics
 /// * If the directory does not exist.
 /// * If the directory is not readable.
 /// * If the directory is not a directory.
 /// * If the directory is not a valid.
-/// 
+///
 pub fn find_markdown_files<P: AsRef<Path>>(
     dir: P,
     ignore_folders: Option<&[&str]>,
@@ -29,9 +29,10 @@ pub fn find_markdown_files<P: AsRef<Path>>(
             Ok(entry) => entry,
             Err(_) => continue,
         };
-        
-        let is_ignored: bool = ignore_folders.map(|slice| slice.iter().any(|&needle| entry.path().to_str().unwrap().contains(needle)))
-            .unwrap_or(false);
+
+        let is_ignored = ignore_folders.map_or(false, |slice|
+            slice.iter().any(|&needle| entry.path().to_str().unwrap().contains(needle))
+        );
         if is_ignored { continue; }
 
         if entry.file_type().is_file() && entry.path().extension().map_or(false, |ext| ext == "md") {
@@ -71,10 +72,10 @@ mod tests {
         let test_dir: PathBuf = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
             .join("tests")
             .join("test_files");
-        
+
         let markdown_files_without_ignore: Vec<PathBuf> = find_markdown_files(&test_dir, None);
         assert!(markdown_files_without_ignore.iter().any(|p| p.ends_with("ignored_test_files/file_8.md")));
-        
+
         let ignore_folders: &[&str; 1] = &["ignored_test_files"];
         let markdown_files_with_ignore: Vec<PathBuf> = find_markdown_files(&test_dir, Some(ignore_folders));
         assert!(!markdown_files_with_ignore.iter().any(|p| p.ends_with("ignored_test_files/file_8.md")));
