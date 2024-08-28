@@ -67,7 +67,7 @@ mod tests {
             .join("tests")
             .join("test_files");
 
-        let markdown_files: Vec<PathBuf> = find_markdown_files(test_dir, None);
+        let markdown_files: Vec<PathBuf> = find_markdown_files(test_dir, &[]);
 
         assert_eq!(markdown_files.len(), 8);
         assert!(markdown_files.iter().any(|p| p.file_name().unwrap() == "file1.md"));
@@ -83,11 +83,10 @@ mod tests {
             .join("tests")
             .join("test_files");
 
-        let markdown_files_without_ignore: Vec<PathBuf> = find_markdown_files(&test_dir, None);
+        let markdown_files_without_ignore: Vec<PathBuf> = find_markdown_files(&test_dir, &[]);
         assert!(markdown_files_without_ignore.iter().any(|p| p.ends_with("ignored_test_files/file_8.md")));
-
-        let ignore_folders: &[&str; 1] = &["ignored_test_files"];
-        let markdown_files_with_ignore: Vec<PathBuf> = find_markdown_files(&test_dir, Some(ignore_folders));
+        
+        let markdown_files_with_ignore: Vec<PathBuf> = find_markdown_files(&test_dir, &["ignored_test_files".to_string()]);
         assert!(!markdown_files_with_ignore.iter().any(|p| p.ends_with("ignored_test_files/file_8.md")));
         assert!(markdown_files_with_ignore.iter().any(|p| p.ends_with("file1.md")));
     }
