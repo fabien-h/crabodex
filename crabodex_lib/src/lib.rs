@@ -43,7 +43,8 @@ pub mod core;
 ///    "This repository helps us testing crabodex generation.",
 ///    "ebb34e7",
 ///    "https://github.com/crabodex/crabodex",
-/// None);
+///     &*[]
+/// );
 /// ```
 /// 
 pub fn generate<P: AsRef<Path>>(
@@ -52,8 +53,10 @@ pub fn generate<P: AsRef<Path>>(
     repo_description: &str,
     commit_hash: &str,
     repo_url: &str,
-    ignore_folders: Option<&[&str]>,
+    ignore_folders: &[String],
 ) -> String {
+    println!("ignore_folders: {:?}", ignore_folders);
+    
     let markdown_files: Vec<PathBuf> = find_markdown_files(&root_directory, ignore_folders);
     let doc_structure: DocNode = build_doc_structure(&markdown_files, root_directory.as_ref());
     let navigation: String = build_navigation(&doc_structure);
@@ -86,7 +89,7 @@ mod tests {
             "This repository helps us testing crabodex generation.",
             "ebb34e7",
             "https://github.com/test_repo",
-            Some(&["ignored_test_files"]),
+            &["ignored_test_files".to_string()],
         );
 
         assert!(result.contains("<title>Test repository</title>"));

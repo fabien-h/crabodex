@@ -1,6 +1,6 @@
 use std::path::{ Path, PathBuf};
 
-use walkdir::WalkDir;
+use walkdir::{DirEntry, WalkDir};
 
 /// Find all markdown files in a directory and its subdirectories.
 ///
@@ -19,21 +19,29 @@ use walkdir::WalkDir;
 ///
 pub fn find_markdown_files<P: AsRef<Path>>(
     dir: P,
-    ignore_folders: Option<&[&str]>,
+    ignore_folders: &[String],
 ) -> Vec<PathBuf> {
     let dir: &Path = dir.as_ref();
     let mut markdown_files: Vec<PathBuf> = Vec::new();
+    
+    println!("ignore_folders: {:?}", ignore_folders);
 
     for entry in WalkDir::new(dir).follow_links(true) {
-        let entry = match entry {
+
+
+        let entry: DirEntry = match entry {
             Ok(entry) => entry,
             Err(_) => continue,
         };
 
-        let is_ignored = ignore_folders.map_or(false, |slice|
-            slice.iter().any(|&needle| entry.path().to_str().unwrap().contains(needle))
+
+        let is_ignored: bool = ignore_folders.iter().any(|needle|
+            entry.path().to_str().map_or(false, |path| path.contains(needle))
         );
         if is_ignored { continue; }
+
+        println!("entry: {:?}", entry);
+        println!("entry path: {:?}", entry.path());
 
         if entry.file_type().is_file() && entry.path().extension().map_or(false, |ext| ext == "md") {
             if let Ok(relative_path) = entry.path().strip_prefix(dir) {
@@ -41,6 +49,8 @@ pub fn find_markdown_files<P: AsRef<Path>>(
             }
         }
     }
+
+    println!("markdown_files: {:?}", markdown_files);
 
     markdown_files
 }

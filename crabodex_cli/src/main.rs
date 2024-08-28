@@ -1,6 +1,23 @@
 use std::io::{self, Write};
 use std::path::PathBuf;
 use clap::Parser;
+
+const DEFAULT_IGNORE_FOLDERS: &[&str] = &[
+    ".git/",
+    ".svn/",
+    ".hg/",
+    "build/",
+    "dist/",
+    "out/",
+    "bin/",
+    "target/",
+    ".idea/",
+    ".vscode/",
+    ".vs/",
+    ".eclipse/",
+    "node_modules/",
+];
+
 #[derive(Parser)]
 #[clap(author, version, about, long_about = None)]
 struct Cli {
@@ -26,15 +43,21 @@ struct Cli {
 fn main() -> io::Result<()> {
     let cli: Cli = Cli::parse();
 
-    let ignore_folders: Vec<&str> = cli.ignore_folders.iter().map(AsRef::as_ref).collect();
-
+    let mut merged_ignore_folders: Vec<String> = DEFAULT_IGNORE_FOLDERS
+        .iter()
+        .map(|&s| s.to_string())
+        .collect();
+    merged_ignore_folders.extend(cli.ignore_folders);
+    merged_ignore_folders.sort_unstable();
+    merged_ignore_folders.dedup();
+    
     let result: String = crabodex_lib::generate(
         &cli.root_directory,
         &cli.repo_name,
         &cli.repo_description,
         &cli.commit_hash,
         &cli.repo_url,
-        if ignore_folders.is_empty() { None } else { Some(&ignore_folders) }
+        &merged_ignore_folders
     );
 
     io::stdout().write_all(result.as_bytes())?;
