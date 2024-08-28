@@ -23,8 +23,6 @@ pub fn find_markdown_files<P: AsRef<Path>>(
 ) -> Vec<PathBuf> {
     let dir: &Path = dir.as_ref();
     let mut markdown_files: Vec<PathBuf> = Vec::new();
-    
-    println!("::debug::ignore_folders: {ignore_folders:?}");
 
     for entry in WalkDir::new(dir).follow_links(true) {
 
@@ -46,8 +44,6 @@ pub fn find_markdown_files<P: AsRef<Path>>(
             }
         }
     }
-
-    println!("markdown_files: {markdown_files:?}");
 
     markdown_files
 }

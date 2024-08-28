@@ -55,7 +55,6 @@ pub fn generate<P: AsRef<Path>>(
     repo_url: &str,
     ignore_folders: &[String],
 ) -> String {
-    println!("::debug::ignore_folders: {ignore_folders:?}");
     
     let markdown_files: Vec<PathBuf> = find_markdown_files(&root_directory, ignore_folders);
     let doc_structure: DocNode = build_doc_structure(&markdown_files, root_directory.as_ref());
