@@ -33,9 +33,20 @@ jobs:
           chmod +x crabodex
 
       - name: Generate documentation
+        env:
+          REPO_NAME: ${{ github.repository }}
+          REPO_DESCRIPTION: ${{ github.event.repository.description }}
+          COMMIT_HASH: ${{ github.sha }}
+          GITHUB_SERVER_URL: ${{ github.server_url }}
         run: |
           mkdir docs
-          ./crabodex --ignore-folders tests > ./docs/index.html
+          ./crabodex \
+            --ignore-folders tests \
+            --repo-name "$REPO_NAME" \
+            --repo-description "$REPO_DESCRIPTION" \
+            --commit-hash "$COMMIT_HASH" \
+            --repo-url "GITHUB_SERVER_URL" \
+            > ./docs/index.html
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
