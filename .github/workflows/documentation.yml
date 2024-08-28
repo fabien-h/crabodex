@@ -36,15 +36,15 @@ jobs:
         env:
           REPO_NAME: ${{ github.repository }}
           REPO_DESCRIPTION: ${{ github.event.repository.description }}
-          COMMIT_HASH: ${{ github.sha }}
           GITHUB_SERVER_URL: ${{ github.server_url }}
         run: |
+          COMMIT_HASH_SHORT=$(git rev-parse --short HEAD)
           mkdir docs
           ./crabodex \
             --ignore-folders tests \
             --repo-name "$REPO_NAME" \
             --repo-description "$REPO_DESCRIPTION" \
-            --commit-hash "$COMMIT_HASH" \
+            --commit-hash "COMMIT_HASH_SHORT" \
             --repo-url "$GITHUB_SERVER_URL/$REPO_NAME/" \
             > ./docs/index.html
 
