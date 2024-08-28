@@ -50,6 +50,8 @@ fn main() -> io::Result<()> {
     merged_ignore_folders.extend(cli.ignore_folders);
     merged_ignore_folders.sort_unstable();
     merged_ignore_folders.dedup();
+
+    println!("merged_ignore_folders: {:?}", merged_ignore_folders);
     
     let result: String = crabodex_lib::generate(
         &cli.root_directory,
