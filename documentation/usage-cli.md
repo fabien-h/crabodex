@@ -21,5 +21,15 @@ Here are the parameters you can use with the CLI:
 Example :
 
 ```bash
-    crabodex --root-directory ./docs --repo-name "My awesome project" --repo-description "This is my awesome project" --commit-hash 1234567890 --repo-url https://github.com/me/my-awesome-project --ignore-folders docs/,tests/
+crabodex --root-directory ./docs --repo-name "My awesome project" --repo-description "This is my awesome project" --commit-hash 1234567890 --repo-url https://github.com/me/my-awesome-project --ignore-folders docs/,tests/
 ```
+
+This won't do anything locally. This tool is super agnostic and the result of this command is simply a string in the stdout. You can redirect it to a file to save it.
+
+For example, you can redirect the output to a file:
+
+```bash
+crabodex  > docs.json
+```
+
+If you don't, it will just be displayed in the console.
