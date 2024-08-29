@@ -2,14 +2,14 @@
 use yaml_rust::{Yaml, YamlLoader};
 use crate::core::constants::DEFAULT_FRONT_MATTER_PREFIX;
 
-/// Parses the front matter of a markdown file.
+/// Parses the Front Matter of a markdown file.
 /// 
-/// The front matter must be in YAML format.
-/// The front matter must start with "---" and end with "---".
-/// The front matter must contain a "path" field.
+/// The Front Matter must be in YAML format.
+/// The Front Matter must start with "---" and end with "---".
+/// The Front Matter must contain a "path" field.
 /// The "path" field must be a list of strings.
 /// The last string in the "path" field is the title of the document.
-/// The front matter may contain a "position" field.
+/// The Front Matter may contain a "position" field.
 /// The "position" field must be an integer.
 /// 
 /// # Arguments
@@ -17,10 +17,10 @@ use crate::core::constants::DEFAULT_FRONT_MATTER_PREFIX;
 /// 
 /// # Returns
 /// * `Some((title, path, position))` - The title, path and position of the document.
-/// * `None` - If the front matter is not found or is invalid.
+/// * `None` - If the Front Matter is not found or is invalid.
 /// 
 /// # Panics
-/// If the front matter is invalid.
+/// If the Front Matter is invalid.
 /// If the "path" field is not found.
 /// If the "path" field is not a list of strings.
 /// If the "position" field is not an integer.

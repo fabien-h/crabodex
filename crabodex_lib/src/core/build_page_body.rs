@@ -13,7 +13,7 @@ use crate::DocNode;
 /// The body of the HTML page.
 /// 
 /// # Panics
-/// If the front matter is invalid.
+/// If the Front Matter is invalid.
 /// 
 #[must_use]
 pub fn build_page_body(

@@ -29,7 +29,7 @@ This won't do anything locally. This tool is super agnostic and the result of th
 For example, you can redirect the output to a file:
 
 ```bash
-crabodex  > docs.json
+crabodex > docs.json
 ```
 
 If you don't, it will just be displayed in the console.

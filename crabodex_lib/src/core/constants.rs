@@ -1,2 +1,2 @@
-/// The default front matter prefix.
+/// The default Front Matter prefix.
 pub const DEFAULT_FRONT_MATTER_PREFIX: &str = "---";

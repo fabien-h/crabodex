@@ -14,7 +14,7 @@ use crate::DocNode;
 /// The document structure as a `DocNode`.
 /// 
 /// # Panics
-/// If the front matter is invalid.
+/// If the Front Matter is invalid.
 #[must_use]
 pub fn build_doc_structure(files: &[PathBuf], root_directory: &Path) -> DocNode {
     let mut root: DocNode = DocNode::new("Documentation", "");
