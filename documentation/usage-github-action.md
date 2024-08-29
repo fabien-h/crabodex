@@ -43,8 +43,41 @@ jobs:
       # Download the latest release of crabodex from the release
       - name: Download crabodex from release
         run: |
-          curl -L https://github.com/${{ github.repository }}/releases/download/${{ steps.get_release.outputs.release_tag }}/crabodex -o crabodex
-          chmod +x crabodex
+          RELEASE_TAG="${{ steps.get_release.outputs.release_tag }}"
+          OS=$(echo $RUNNER_OS | tr '[:upper:]' '[:lower:]')
+          ARCH=$(uname -m)
+
+          if [ "$ARCH" = "x86_64" ]; then
+            ARCH="amd64"
+          elif [ "$ARCH" = "aarch64" ]; then
+            ARCH="arm64"
+          fi
+
+          if [ "$OS" = "windows" ]; then
+            BINARY_NAME="crabodex-${OS}-${ARCH}.exe"
+          else
+            BINARY_NAME="crabodex-${OS}-${ARCH}"
+          fi
+
+          DOWNLOAD_URL="https://github.com/${{ github.repository }}/releases/download/${RELEASE_TAG}/${BINARY_NAME}"
+
+          echo "Downloading from: $DOWNLOAD_URL"
+
+          curl -L "$DOWNLOAD_URL" -o crabodex
+
+          if [ "$OS" != "windows" ]; then
+            chmod +x crabodex
+          fi
+
+      - name: Verify crabodex
+        run: |
+          ls -l crabodex*
+          file crabodex*
+          if [ "$RUNNER_OS" != "Windows" ]; then
+            ./crabodex --version
+          else
+            ./crabodex.exe --version
+          fi
 
       # Generate the documentation using the downloaded binary
       - name: Generate documentation
