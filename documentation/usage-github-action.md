@@ -75,3 +75,7 @@ jobs:
           publish_dir: ./docs
           force_orphan: true
 ```
+
+In this example, the documentation is simply deployed as a GitHub page. If this is what you want, don't forget a couple of things :
+- Enable GitHub pages in the settings of your repository.
+- Allow your actions to write in the repository settings.
