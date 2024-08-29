@@ -105,12 +105,31 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+
+      - name: Install cross-compilation tools
+        if: matrix.os == 'ubuntu-latest' && matrix.target == 'aarch64-unknown-linux-gnu'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-aarch64-linux-gnu
 
       - name: Build
         run: |
+          rustup target add ${{ matrix.target }}
           cargo build --release --verbose --bin crabodex_cli --target ${{ matrix.target }}
-          mv target/${{ matrix.target }}/release/crabodex_cli target/${{ matrix.target }}/release/${{ matrix.artifact_name }}
+        env:
+          CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER: aarch64-linux-gnu-gcc
         id: build
+
+      - name: Rename binary
+        shell: bash
+        run: |
+          if [ "${{ matrix.os }}" == "windows-latest" ]; then
+            mv target/${{ matrix.target }}/release/crabodex_cli.exe target/${{ matrix.target }}/release/${{ matrix.artifact_name }}
+          else
+            mv target/${{ matrix.target }}/release/crabodex_cli target/${{ matrix.target }}/release/${{ matrix.artifact_name }}
+          fi
 
       - name: List build artifacts
         run: |
@@ -141,7 +160,7 @@ jobs:
 
   build-wasm:
     name: Build WASM
-    needs: [test, clippy, outdated]
+    needs: [ test, clippy, outdated ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -152,7 +171,9 @@ jobs:
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
       - name: Build WASM
-        run: wasm-pack build --target web --out-dir pkg
+        run: |
+          cd crabodex_cli
+          wasm-pack build --target web --out-dir ../pkg
         id: build-wasm
 
       - name: Upload WASM artifact
