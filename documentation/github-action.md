@@ -1,5 +1,4 @@
 ---
-position: 0
 path:
   - Use in a GitHub Action
 ---

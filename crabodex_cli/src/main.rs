@@ -33,7 +33,7 @@ struct Cli {
     #[clap(long, default_value = "latest")]
     commit_hash: String,
 
-    #[clap(long, default_value = "latest")]
+    #[clap(long, default_value = "")]
     repo_url: String,
 
     #[clap(long, use_value_delimiter = true, value_delimiter = ',')]
