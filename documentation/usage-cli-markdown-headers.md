@@ -29,3 +29,4 @@ Notes:
 - The path should be unique
 - You don't need a file for each level of the path. You can have a file with a path of `['Usage', 'CLI']` and no file with a path of `['Usage']`. The cli will add the missing levels in the table of content and in the body of the page.
 - This system is used to regroup documentation elements that belongs together logically but that are placed in different sections of your codebase.
+ 
