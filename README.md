@@ -46,6 +46,16 @@ crabodex > docs.json
 
 If you don't, it will just be displayed in the console.
 
+#### Local installation
+
+On MacOS and Linux, you can install the CLI locally using
+
+`curl -sSL https://raw.githubusercontent.com/fabien-h/crabodex/main/scripts/install.sh | bash`
+
+On Windows, you can install the CLI locally using
+
+`Invoke-Expression (Invoke-WebRequest -Uri "https://raw.githubusercontent.com/fabien-h/crabodex/main/scripts/install.ps1" -UseBasicParsing).Content`
+
 #### Markdown Front Matter headers
 
 Crabodex needs a [Front Matter](https://frontmatter.codes/) header in your markdown files. It only uses the ones that have it.
