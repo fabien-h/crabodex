@@ -1,6 +1,6 @@
+use chrono::Local;
 use html_minifier::HTMLMinifier;
 use regex::Regex;
-use chrono::Local;
 
 /// Create an HTML document. This function generates the HTML document using
 /// the provided navigation and page body.
@@ -27,7 +27,7 @@ pub fn create_html_document(
     repo_name: &str,
     repo_description: &str,
     commit_hash: &str,
-    repo_url: &str
+    repo_url: &str,
 ) -> String {
     let mut html_minifier: HTMLMinifier = HTMLMinifier::new();
     let generation_date: String = Local::now().format("%Y-%m-%d %H:%M:%S").to_string();
@@ -448,6 +448,7 @@ pub fn create_html_document(
         ul,
         ol {{
             padding-left: 20px;
+            margin-bottom: 20px;
         }}
 
         ul {{
@@ -582,7 +583,8 @@ pub fn create_html_document(
         }});
     </script>
 </body>
-</html>"#);
+</html>"#
+    );
 
     html_minifier.digest(body).unwrap();
     let minified_html = String::from_utf8_lossy(html_minifier.get_html()).into_owned();
