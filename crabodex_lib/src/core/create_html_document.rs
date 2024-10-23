@@ -1,6 +1,5 @@
 use chrono::Local;
 use html_minifier::HTMLMinifier;
-use regex::Regex;
 
 /// Create an HTML document. This function generates the HTML document using
 /// the provided navigation and page body.
@@ -58,13 +57,17 @@ pub fn create_html_document(
             --text-color: #333333;
             --nav-bg-color: #f4f4f4;
             --pre-bg-color: #f4f4f4;
+            --primary: #18181b;
+            --muted-foreground: #71717a;
         }}
 
         .dark-mode {{
-            --bg-color: #333333;
+            --bg-color: #2d2d2d;
             --text-color: #ffffff;
             --nav-bg-color: #222222;
             --pre-bg-color: #444444;
+            --primary: #fafafa;
+            --muted-foreground: #d4d4d8;
         }}
 
         body {{
@@ -76,6 +79,14 @@ pub fn create_html_document(
             font-size: 1.6rem;
             color: var(--text-color);
             background-color: var(--bg-color);
+        }}
+
+        a {{
+            color: var(--muted-foreground);
+        }}
+
+        a:hover {{
+            color: var(--primary);
         }}
 
         .container {{
@@ -591,7 +602,5 @@ pub fn create_html_document(
     );
 
     html_minifier.digest(body).unwrap();
-    let minified_html = String::from_utf8_lossy(html_minifier.get_html()).into_owned();
-    let regex: Regex = Regex::new(r">\s*<").unwrap();
-    regex.replace_all(&minified_html, "><").into_owned()
+    String::from_utf8_lossy(html_minifier.get_html()).into_owned()
 }
