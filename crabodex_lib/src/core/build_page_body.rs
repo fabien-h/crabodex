@@ -93,7 +93,7 @@ pub fn build_page_body(root: &DocNode, depth: usize, repo_url: &str) -> String {
                             // If we're in a code block, build up the string of text
                             to_highlight.push_str(&t);
                         } else {
-                            new_p.push(Event::Text(t))
+                            new_p.push(Event::Text(t));
                         }
                     }
                     e => {
