@@ -89,7 +89,7 @@ pub fn create_html_document(
 
         nav {{
             width: 250px;
-            height: 100%;
+            height: 100vh;
             position: fixed;
             left: 0;
             top: 0;
@@ -97,10 +97,14 @@ pub fn create_html_document(
             border-right: 1px solid #ddd;
             z-index: 1000;
             background-color: var(--bg-color);
+            display: flex;
+            flex-direction: column;
         }}
 
         nav>header {{
             border-bottom: 1px solid #ddd;
+            flex-grow: 0;
+            flex-shrink: 0;
         }}
 
         nav>header>.repo-name {{
@@ -141,10 +145,10 @@ pub fn create_html_document(
         }}
 
         nav>ul {{
-            height: 100%;
             overflow-y: auto;
             font-size: 1.4rem;
             padding: 10px 15px 10px 20px;
+            flex-grow: 1;
         }}
 
         nav a {{
