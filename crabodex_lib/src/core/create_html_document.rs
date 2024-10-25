@@ -602,5 +602,5 @@ pub fn create_html_document(
     );
 
     html_minifier.digest(body).unwrap();
-    String::from_utf8_lossy(html_minifier.get_html()).into_owned()
+    String::from_utf8_lossy(html_minifier.get_html()).into()
 }
