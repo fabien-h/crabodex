@@ -1,4 +1,4 @@
-use std::path::{ Path, PathBuf};
+use std::path::{Path, PathBuf};
 
 use walkdir::{DirEntry, WalkDir};
 
@@ -17,28 +17,27 @@ use walkdir::{DirEntry, WalkDir};
 /// * If the directory is not a directory.
 /// * If the directory is not a valid.
 ///
-pub fn find_markdown_files<P: AsRef<Path>>(
-    dir: P,
-    ignore_folders: &[String],
-) -> Vec<PathBuf> {
+pub fn find_markdown_files<P: AsRef<Path>>(dir: P, ignore_folders: &[String]) -> Vec<PathBuf> {
     let dir: &Path = dir.as_ref();
     let mut markdown_files: Vec<PathBuf> = Vec::new();
 
     for entry in WalkDir::new(dir).follow_links(true) {
-
-
         let entry: DirEntry = match entry {
             Ok(entry) => entry,
             Err(_) => continue,
         };
 
+        let is_ignored: bool = ignore_folders.iter().any(|needle| {
+            entry
+                .path()
+                .to_str()
+                .is_some_and(|path| path.contains(needle))
+        });
+        if is_ignored {
+            continue;
+        }
 
-        let is_ignored: bool = ignore_folders.iter().any(|needle|
-            entry.path().to_str().map_or(false, |path| path.contains(needle))
-        );
-        if is_ignored { continue; }
-
-        if entry.file_type().is_file() && entry.path().extension().map_or(false, |ext| ext == "md") {
+        if entry.file_type().is_file() && entry.path().extension().is_some_and(|ext| ext == "md") {
             if let Ok(relative_path) = entry.path().strip_prefix(dir) {
                 markdown_files.push(relative_path.to_path_buf());
             }
@@ -63,11 +62,21 @@ mod tests {
         let markdown_files: Vec<PathBuf> = find_markdown_files(test_dir, &[]);
 
         assert_eq!(markdown_files.len(), 8);
-        assert!(markdown_files.iter().any(|p| p.file_name().unwrap() == "file1.md"));
-        assert!(markdown_files.iter().any(|p| p.file_name().unwrap() == "file5.md"));
-        assert!(markdown_files.iter().any(|p| p.ends_with("sub_dir_1/file4.md")));
-        assert!(markdown_files.iter().any(|p| p.ends_with("sub_dir_1/sub_sub_dir/file3.md")));
-        assert!(!markdown_files.iter().any(|p| p.file_name().unwrap() == "file.txt"));
+        assert!(markdown_files
+            .iter()
+            .any(|p| p.file_name().unwrap() == "file1.md"));
+        assert!(markdown_files
+            .iter()
+            .any(|p| p.file_name().unwrap() == "file5.md"));
+        assert!(markdown_files
+            .iter()
+            .any(|p| p.ends_with("sub_dir_1/file4.md")));
+        assert!(markdown_files
+            .iter()
+            .any(|p| p.ends_with("sub_dir_1/sub_sub_dir/file3.md")));
+        assert!(!markdown_files
+            .iter()
+            .any(|p| p.file_name().unwrap() == "file.txt"));
     }
 
     #[test]
@@ -77,10 +86,17 @@ mod tests {
             .join("test_files");
 
         let markdown_files_without_ignore: Vec<PathBuf> = find_markdown_files(&test_dir, &[]);
-        assert!(markdown_files_without_ignore.iter().any(|p| p.ends_with("ignored_test_files/file_8.md")));
-        
-        let markdown_files_with_ignore: Vec<PathBuf> = find_markdown_files(&test_dir, &["ignored_test_files".to_string()]);
-        assert!(!markdown_files_with_ignore.iter().any(|p| p.ends_with("ignored_test_files/file_8.md")));
-        assert!(markdown_files_with_ignore.iter().any(|p| p.ends_with("file1.md")));
+        assert!(markdown_files_without_ignore
+            .iter()
+            .any(|p| p.ends_with("ignored_test_files/file_8.md")));
+
+        let markdown_files_with_ignore: Vec<PathBuf> =
+            find_markdown_files(&test_dir, &["ignored_test_files".to_string()]);
+        assert!(!markdown_files_with_ignore
+            .iter()
+            .any(|p| p.ends_with("ignored_test_files/file_8.md")));
+        assert!(markdown_files_with_ignore
+            .iter()
+            .any(|p| p.ends_with("file1.md")));
     }
 }
