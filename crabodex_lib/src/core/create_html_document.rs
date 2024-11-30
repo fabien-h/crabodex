@@ -438,6 +438,12 @@ pub fn create_html_document(
             padding: 0;
         }}
 
+        blockquote {{
+            border-left: 3px solid #999;
+            padding: 5px 5px 5px 15px;
+            background: #66666611;
+        }}
+
         table {{
             border-collapse: collapse;
             width: 100%;
