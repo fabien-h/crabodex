@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>fabien-h/crabodex</title>
+<style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;font:inherit;}html{font-size:62.5%;}:root{--bg-color:#ffffff;--text-color:#333333;--nav-bg-color:#f4f4f4;--pre-bg-color:#f4f4f4;--primary:#18181b;--muted-foreground:#71717a;}.dark-mode{--bg-color:#2d2d2d;--text-color:#ffffff;--nav-bg-color:#222222;--pre-bg-color:#444444;--primary:#fafafa;--muted-foreground:#d4d4d8;}body{line-height:1.75;color:#333;height:100%;-webkit-font-smoothing:antialiased;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";font-size:1.6rem;color:var(--text-color);background-color:var(--bg-color);}a{color:var(--muted-foreground);}a:hover{color:var(--primary);}.container{display:flex;height:100%;}button{cursor:pointer;}nav{width:250px;height:100vh;position:fixed;left:0;top:0;transition:transform 0.3s ease-in-out;border-right:1px solid #ddd;z-index:1000;background-color:var(--bg-color);display:flex;flex-direction:column;}nav>header{border-bottom:1px solid #ddd;flex-grow:0;flex-shrink:0;}nav>header>.repo-name{font-family:Bahnschrift,'DIN Alternate','Franklin Gothic Medium','Nimbus Sans Narrow',sans-serif-condensed,sans-serif;font-size:2rem;padding:10px 15px 0 15px;}nav>header>.repo-description{padding:0 15px 10px 15px;font-size:1.4rem;border-bottom:1px solid #ddd;color:#999;}nav>header>.commit-hash{padding:10px 15px 0 15px;font-size:1.4rem;}nav>header>.commit-hash>a{text-decoration:underline;}nav>header>.generation-date{padding:0 15px 10px 15px;font-size:1.4rem;}nav>header>.generation-date>span:first-of-type{font-size:1.4rem;color:#999;}nav>header>.generation-date>span:last-of-type{font-size:1.4rem;font-weight:bold;}nav>ul{overflow-y:auto;font-size:1.4rem;padding:10px 15px 10px 20px;flex-grow:1;}nav a{display:block;text-decoration:none;color:var(--text-color);}nav a:hover{text-decoration:underline;}nav ul{list-style-type:"→";margin-bottom:10px;}nav ul li{padding-left:5px;}nav ul ul{margin-left:10px;padding:0;}main{flex-grow:1;margin-left:250px;overflow-y:auto;position:relative;overflow-x:hidden;background-color:var(--bg-color);}main>header{border-bottom:1px solid #ddd;height:40px;display:flex;align-items:center;justify-content:flex-end;margin-bottom:20px;}main>footer{margin-top:30px;border-top:1px solid #ddd;}main>footer>p{max-width:800px;margin:0 auto;padding:10px 15px 100px 15px;}main>div{padding:10px;width:100%;max-width:800px;margin:0 auto;}main p{margin-bottom:20px;}.depth-2{padding-left:20px;}.depth-3{padding-left:30px;}.depth-4{padding-left:40px;}.depth-5{padding-left:50px;}.depth-6{padding-left:60px;}.depth-7{padding-left:70px;}.depth-8{padding-left:80px;}.depth-9{padding-left:90px;}.depth-10{padding-left:100px;}h1,h2,h3,h4,h5,h6{padding:10px;font-family:Bahnschrift,'DIN Alternate','Franklin Gothic Medium','Nimbus Sans Narrow',sans-serif-condensed,sans-serif;width:100%;max-width:800px;margin:0 auto;}h1>span,h2>span,h3>span,h4>span,h5>span,h6>span{display:flex;align-items:center;justify-content:space-between;}h1:after,h2:after,h3:after,h4:after,h5:after,h6:after{display:block;width:100%;height:1px;background-color:#ddd;content:'';}h1{font-size:3.2rem;}h2{font-size:2.8rem;padding-left:20px;}h3{font-size:2.4rem;padding-left:30px;}h4{font-size:2.2rem;padding-left:40px;}h5{font-size:2rem;padding-left:50px;}h6{font-size:1.8rem;padding-left:60px;}pre{background-color:#f4f4f4;padding:10px;overflow-x:auto;}#menu-toggle{position:absolute;top:0;right:-51px;z-index:1000;color:#333;border:none;cursor:pointer;border-bottom-right-radius:5px;border-right:1px solid #ddd;border-bottom:1px solid #ddd;background-color:#fff;width:50px;text-align:center;font-size:24px;height:50px;display:none;}#print-btn>svg,#mode-toggle>svg{display:block;width:18px;fill:var(--text-color);}#decrease-font,#increase-font,#top-repo-link,#print-btn,#mode-toggle{color:var(--text-color);cursor:pointer;background:none;border:none;font-weight:bold;height:100%;border-left:1px solid #ddd;padding:0 8px;font-size:16px;display:flex;align-items:center;}@media (max-width:768px){nav{transform:translateX(-100%);}nav.active{transform:translateX(0);}main{margin-left:0;}#menu-toggle{display:block;}}.gh-icon{mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12,2A10,10 0 0,0 2,12C2,16.42 4.87,20.17 8.84,21.5C9.34,21.58 9.5,21.27 9.5,21C9.5,20.77 9.5,20.14 9.5,19.31C6.73,19.91 6.14,17.97 6.14,17.97C5.68,16.81 5.03,16.5 5.03,16.5C4.12,15.88 5.1,15.9 5.1,15.9C6.1,15.97 6.63,16.93 6.63,16.93C7.5,18.45 8.97,18 9.54,17.76C9.63,17.11 9.89,16.67 10.17,16.42C7.95,16.17 5.62,15.31 5.62,11.5C5.62,10.39 6,9.5 6.65,8.79C6.55,8.54 6.2,7.5 6.75,6.15C6.75,6.15 7.59,5.88 9.5,7.17C10.29,6.95 11.15,6.84 12,6.84C12.85,6.84 13.71,6.95 14.5,7.17C16.41,5.88 17.25,6.15 17.25,6.15C17.8,7.5 17.45,8.54 17.35,8.79C18,9.5 18.38,10.39 18.38,11.5C18.38,15.32 16.04,16.16 13.81,16.41C14.17,16.72 14.5,17.33 14.5,18.26C14.5,19.6 14.5,20.68 14.5,21C14.5,21.27 14.66,21.59 15.17,21.5C19.14,20.16 22,16.42 22,12A10,10 0 0,0 12,2Z'/%3E%3C/svg%3E");background-color:var(--text-color);background-size:contain;width:20px;height:20px;display:block;flex-shrink:0;background-repeat:no-repeat;background-position:center;}code,pre{font-family:ui-monospace,'Cascadia Code','Source Code Pro',Menlo,Consolas,'DejaVu Sans Mono',monospace;background-color:#f4f4f4;border-radius:4px;color:#333;border:1px solid #ddd;}pre code{background:none;border:none;}code{padding:2px 4px;font-size:90%;text-wrap:wrap;}pre{padding:10px;overflow-x:auto;}pre code{background-color:transparent;padding:0;}blockquote{border-left:3px solid #999;padding:5px 5px 5px 15px;background:#66666611;}table{border-collapse:collapse;width:100%;margin-bottom:10px;}th,td{border:1px solid #ddd;padding:8px;text-align:left;}th{background-color:#00000022;font-weight:bold;}tr:nth-child(even){background-color:#00000011;}ul,ol{padding-left:20px;margin-bottom:20px;}ul{list-style-type:disc;}ol{list-style-type:decimal;}li{margin-bottom:5px;}hr{border:none;border-top:1px solid #ddd;margin:20px 0;}strong{font-weight:700;}em{font-style:italic;}@media print{main>header{display:none;}body{font-size:12pt;}#menu-toggle{display:none;}nav{width:100%;height:auto;position:relative;transform:translateX(0);border-right:none;display:block;}</style>
+</head>
+<body>
+<nav>
+<button id="menu-toggle">☰</button>
+<header>
+<p class="repo-name">fabien-h/crabodex</p>
+<p class="repo-description">Documentation generator for repository from Markdown files.</p>
+<p class="commit-hash">
+<a href="https://github.com/fabien-h/crabodex/commit/b17d110" target="_blank">commit b17d110</a>
+</p>
+<p class="generation-date">
+<span>generated at : </span>
+<span>2024-11-30 21:00:28</span>
+</p>
+</header>
+<ul><li><a href="#introduction">Introduction</a></li><li><a href="#usage">Usage</a><ul><li><a href="#usage->-cli">CLI</a><ul><li><a href="#usage->-cli->-local-installation">Local installation</a></li><li><a href="#usage->-cli->-default-ignored-folders">Default ignored folders</a></li><li><a href="#usage->-cli->-markdown-front-matter-headers">Markdown Front Matter headers</a></li></ul></li><li><a href="#usage->-github-actions">GitHub Actions</a></li></ul></li></ul>
+</nav>
+<main>
+<header>
+<button id="print-btn" type="button" title="Print documentation">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+<path d="M18 3H6v4h12m1 5a1 1 0 0 1-1-1 1 1 0 0 1 1-1 1 1 0 0 1 1 1 1 1 0 0 1-1 1m-3 7H8v-5h8m3-6H5a3 3 0 0 0-3 3v6h4v4h12v-4h4v-6a3 3 0 0 0-3-3Z"/>
+</svg>
+</button>
+<button id="decrease-font" type="button" title="Decrease font size">A-</button>
+<button id="increase-font" type="button" title="Increase font size">A+</button>
+<div id="top-repo-link" title="Go to repository">
+<a href="https://github.com/fabien-h/crabodex" class="gh-icon"></a>
+</div>
+<button id="mode-toggle" title="Toggle dark & light mode">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+<path d="M7.5 2c-1.79 1.15-3 3.18-3 5.5s1.21 4.35 3.03 5.5C4.46 13 2 10.54 2 7.5A5.5 5.5 0 0 1 7.5 2m11.57 1.5 1.43 1.43L4.93 20.5 3.5 19.07 19.07 3.5m-6.18 2.43L11.41 5 9.97 6l.42-1.7L9 3.24l1.75-.12.58-1.65L12 3.1l1.73.03-1.35 1.13.51 1.67m-3.3 3.61-1.16-.73-1.12.78.34-1.32-1.09-.83 1.36-.09.45-1.29.51 1.27 1.36.03-1.05.87.4 1.31M19 13.5a5.5 5.5 0 0 1-5.5 5.5c-1.22 0-2.35-.4-3.26-1.07l7.69-7.69c.67.91 1.07 2.04 1.07 3.26m-4.4 6.58 2.77-1.15-.24 3.35-2.53-2.2m4.33-2.7 1.15-2.77 2.2 2.54-3.35.23m1.15-4.96-1.14-2.78 3.34.24-2.2 2.54M9.63 18.93l2.77 1.15-2.53 2.19-.24-3.34Z"/>
+</svg>
+</button>
+</header>
+<h1 id="introduction"><span>Introduction <a href="https://github.com/fabien-h/crabodex/blob/main/documentation/introduction.md" title="View on Github" class="gh-icon"></a></span></h1><div class="depth-1"><p>Crabodex is a versatile and efficient documentation generator. It scans your project directory, processes Markdown files, and generates a one-page HTML documentation.</p>
+<p>The end goal is to have a centralised document with all the business rules that exist in your repository. It is aimed as much at developers as it is at business analysts, product owners, and other stakeholders. They can know everything that has been implemented and how it works without having to read the code.</p>
+<p>It tackles the main problem of documentations : keeping them up to date. With crabodex, you are able to colocate code and documentation. Each documentation file seats next to the code it describes. You can easily check at PR time that the documentation is updated when you change the code.</p>
+</div><h1 id="usage"><span>Usage</span></h1><h2 id="usage->-cli"><span>CLI <a href="https://github.com/fabien-h/crabodex/blob/main/documentation/usage-cli.md" title="View on Github" class="gh-icon"></a></span></h2><div class="depth-2"><p>At its core, Crabodex is a command line interface (CLI) tool.</p>
+<p>To use it locally, you can download the release here : https://github.com/fabien-h/crabodex/releases and use the binary. But this is really a tool meant to be used only in a CI/CD pipeline.</p>
+<p>Here are the parameters you can use with the CLI:</p>
+<ul>
+<li><code>--root-directory</code>: The root directory of your project. This is where Crabodex will start scanning for Markdown files. Default is the current directory.</li>
+<li><code>--repo-name</code>: The name of your repository. This is used to generate the title of the documentation. Default is the name of the root directory.</li>
+<li><code>--repo-description</code>: The description of your repository. This is used to generate the description of the documentation. Default is an empty string.</li>
+<li><code>--commit-hash</code>: The hash of the commit. This is used to generate the version of the documentation and a link to the commit page. Default is <code>latest</code>.</li>
+<li><code>--repo-url</code>: The URL of your repository. This is used to generate the links to the source code. Default is an empty string.</li>
+<li><code>--ignore-folders</code>: A list of folders to ignore. This is used to exclude folders from the documentation. There are some opinionated default value. You can add more by separating them with a comma. ex: <code>--ignore-folders docs/,tests/</code></li>
+</ul>
+<p>Example :</p>
+<pre style="background-color:#2d2d2d;">
+<span style="color:#d3d0c8;">crabodex --root-directory ./docs --repo-name &quot;</span><span style="color:#99cc99;">My awesome project</span><span style="color:#d3d0c8;">&quot; --repo-description &quot;</span><span style="color:#99cc99;">This is my awesome project</span><span style="color:#d3d0c8;">&quot; --commit-hash </span><span style="color:#f99157;">1234567890 </span><span style="color:#d3d0c8;">--repo-url https:</span><span style="color:#747369;">//github.com/me/my-awesome-project --ignore-folders docs/,tests/
+</span></pre>
+<p>This won’t do anything locally. This tool is super agnostic and the result of this command is simply a string in the stdout. You can redirect it to a file to save it.</p>
+<p>For example, you can redirect the output to a file:</p>
+<pre style="background-color:#2d2d2d;">
+<span style="color:#d3d0c8;">crabodex &gt; docs.json
+</span></pre>
+<p>If you don’t, it will just be displayed in the console.</p>
+</div><h3 id="usage->-cli->-local-installation"><span>Local installation <a href="https://github.com/fabien-h/crabodex/blob/main/documentation/usage-cli-local.md" title="View on Github" class="gh-icon"></a></span></h3><div class="depth-3"><p>On MacOS and Linux, you can install the CLI locally using</p>
+<p><code>curl -sSL https://raw.githubusercontent.com/fabien-h/crabodex/main/scripts/install.sh | bash</code></p>
+<p>On Windows, you can install the CLI locally using</p>
+<p><code>Invoke-Expression (Invoke-WebRequest -Uri "https://raw.githubusercontent.com/fabien-h/crabodex/main/scripts/install.ps1" -UseBasicParsing).Content</code></p>
+</div><h3 id="usage->-cli->-default-ignored-folders"><span>Default ignored folders <a href="https://github.com/fabien-h/crabodex/blob/main/documentation/usage-cli-default-ignore.md" title="View on Github" class="gh-icon"></a></span></h3><div class="depth-3"><p>By default, those folders are ignored by Crabodex:</p>
+<pre style="background-color:#2d2d2d;">
+<span style="color:#d3d0c8;">&quot;</span><span style="color:#99cc99;">.git/</span><span style="color:#d3d0c8;">&quot;,
+</span><span style="color:#d3d0c8;">&quot;</span><span style="color:#99cc99;">.svn/</span><span style="color:#d3d0c8;">&quot;,
+</span><span style="color:#d3d0c8;">&quot;</span><span style="color:#99cc99;">.hg/</span><span style="color:#d3d0c8;">&quot;,
+</span><span style="color:#d3d0c8;">&quot;</span><span style="color:#99cc99;">build/</span><span style="color:#d3d0c8;">&quot;,
+</span><span style="color:#d3d0c8;">&quot;</span><span style="color:#99cc99;">dist/</span><span style="color:#d3d0c8;">&quot;,
+</span><span style="color:#d3d0c8;">&quot;</span><span style="color:#99cc99;">out/</span><span style="color:#d3d0c8;">&quot;,
+</span><span style="color:#d3d0c8;">&quot;</span><span style="color:#99cc99;">bin/</span><span style="color:#d3d0c8;">&quot;,
+</span><span style="color:#d3d0c8;">&quot;</span><span style="color:#99cc99;">target/</span><span style="color:#d3d0c8;">&quot;,
+</span><span style="color:#d3d0c8;">&quot;</span><span style="color:#99cc99;">.idea/</span><span style="color:#d3d0c8;">&quot;,
+</span><span style="color:#d3d0c8;">&quot;</span><span style="color:#99cc99;">.vscode/</span><span style="color:#d3d0c8;">&quot;,
+</span><span style="color:#d3d0c8;">&quot;</span><span style="color:#99cc99;">.vs/</span><span style="color:#d3d0c8;">&quot;,
+</span><span style="color:#d3d0c8;">&quot;</span><span style="color:#99cc99;">.eclipse/</span><span style="color:#d3d0c8;">&quot;,
+</span><span style="color:#d3d0c8;">&quot;</span><span style="color:#99cc99;">node_modules/</span><span style="color:#d3d0c8;">&quot;,
+</span></pre>
+</div><h3 id="usage->-cli->-markdown-front-matter-headers"><span>Markdown Front Matter headers <a href="https://github.com/fabien-h/crabodex/blob/main/documentation/usage-cli-markdown-headers.md" title="View on Github" class="gh-icon"></a></span></h3><div class="depth-3"><p>Crabodex needs a <a href="https://frontmatter.codes/">Front Matter</a> header in your markdown files. It only uses the ones that have it.</p>
+<p>Here is an example of a markdown file with a Front Matter header:</p>
+<pre style="background-color:#2d2d2d;">
+<span style="color:#d3d0c8;">---
+</span><span style="color:#d3d0c8;">position: </span><span style="color:#f99157;">2
+</span><span style="color:#d3d0c8;">path:
+</span><span style="color:#d3d0c8;">  - Usage
+</span><span style="color:#d3d0c8;">  - </span><span style="color:#f99157;">CLI
+</span><span style="color:#d3d0c8;">  - Markdown Front Matter headers
+</span><span style="color:#d3d0c8;">---
+</span></pre>
+<p>The Front Matter header is a YAML block that starts and ends with three dashes. It contains key-value pairs that Crabodex uses to build the documentation:</p>
+<ul>
+<li><code>position</code>: The position of the markdown file in the documentation tree. This is optional and can be used to arrange the order of your elements in the end document.</li>
+<li><code>path</code>: The path of the markdown file in the documentation tree. It’s used to build the table of content and the titles of the sections.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>You should not go beyond a level 6 depths</li>
+<li>The path should be unique</li>
+<li>You don’t need a file for each level of the path. You can have a file with a path of <code>['Usage', 'CLI']</code> and no file with a path of <code>['Usage']</code>. The cli will add the missing levels in the table of content and in the body of the page.</li>
+<li>This system is used to regroup documentation elements that belongs together logically but that are placed in different sections of your codebase.</li>
+</ul>
+</div><h2 id="usage->-github-actions"><span>GitHub Actions <a href="https://github.com/fabien-h/crabodex/blob/main/documentation/usage-github-action.md" title="View on Github" class="gh-icon"></a></span></h2><div class="depth-2"><p>GitHub Action example:</p>
+<pre style="background-color:#2d2d2d;">
+<span style="color:#d3d0c8;"># Git it the name you want
+</span><span style="color:#d3d0c8;">name: documentation
+</span><span style="color:#d3d0c8;">
+</span><span style="color:#d3d0c8;"># Usually a good idea
+</span><span style="color:#d3d0c8;">env:
+</span><span style="color:#d3d0c8;">  </span><span style="color:#f99157;">FORCE_JAVASCRIPT_ACTIONS_TO_NODE20</span><span style="color:#d3d0c8;">: </span><span style="color:#f99157;">true
+</span><span style="color:#d3d0c8;">
+</span><span style="color:#d3d0c8;"># Trigger the action on push to main, push also means merge
+</span><span style="color:#d3d0c8;">on:
+</span><span style="color:#d3d0c8;">  push:
+</span><span style="color:#d3d0c8;">    branches: [ main ]
+</span><span style="color:#d3d0c8;">
+</span><span style="color:#d3d0c8;">jobs:
+</span><span style="color:#d3d0c8;">  # Name it the way you want
+</span><span style="color:#d3d0c8;">  generate-and-deploy-docs:
+</span><span style="color:#d3d0c8;">    runs-on: ubuntu-latest
+</span><span style="color:#d3d0c8;">    steps:
+</span><span style="color:#d3d0c8;">      - uses: actions/checkout@v4
+</span><span style="color:#d3d0c8;">      
+</span><span style="color:#d3d0c8;">      # This steps programmatically gets the latest release of crabodex
+</span><span style="color:#d3d0c8;">      # You can hardcode a version </span><span style="color:#cc99cc;">if</span><span style="color:#d3d0c8;"> you prefer
+</span><span style="color:#d3d0c8;">      - name: Get latest release
+</span><span style="color:#d3d0c8;">        id: get_release
+</span><span style="color:#d3d0c8;">        uses: actions/github-script@v7
+</span><span style="color:#d3d0c8;">        with:
+</span><span style="color:#d3d0c8;">          github-token: ${{secrets.</span><span style="color:#f99157;">GITHUB_TOKEN</span><span style="color:#d3d0c8;">}}
+</span><span style="color:#d3d0c8;">          script: |
+</span><span style="color:#d3d0c8;">            </span><span style="color:#cc99cc;">const</span><span style="color:#d3d0c8;"> release = await github.rest.repos.getLatestRelease({
+</span><span style="color:#d3d0c8;">              owner: &quot;</span><span style="color:#99cc99;">fabien-h</span><span style="color:#d3d0c8;">&quot;,
+</span><span style="color:#d3d0c8;">              repo: &quot;</span><span style="color:#99cc99;">crabodex</span><span style="color:#d3d0c8;">&quot;,
+</span><span style="color:#d3d0c8;">            });
+</span><span style="color:#d3d0c8;">            core.setOutput(&#39;release_tag&#39;, release.data.tag_name);
+</span><span style="color:#d3d0c8;">
+</span><span style="color:#d3d0c8;">      # Download the latest release of crabodex from the release
+</span><span style="color:#d3d0c8;">      - name: Download crabodex from release
+</span><span style="color:#d3d0c8;">        run: |
+</span><span style="color:#d3d0c8;">          </span><span style="color:#f99157;">RELEASE_TAG</span><span style="color:#d3d0c8;">=&quot;</span><span style="color:#99cc99;">${{ steps.get_release.outputs.release_tag }}</span><span style="color:#d3d0c8;">&quot;
+</span><span style="color:#d3d0c8;">          </span><span style="color:#f99157;">OS</span><span style="color:#d3d0c8;">=$(echo </span><span style="color:#f2777a;">$RUNNER_OS </span><span style="color:#d3d0c8;">| tr &#39;[:upper:]&#39; &#39;[:lower:]&#39;)
+</span><span style="color:#d3d0c8;">          </span><span style="color:#f99157;">ARCH</span><span style="color:#d3d0c8;">=$(uname -m)
+</span><span style="color:#d3d0c8;">
+</span><span style="color:#d3d0c8;">          </span><span style="color:#cc99cc;">if </span><span style="color:#d3d0c8;">[ &quot;</span><span style="color:#99cc99;">$ARCH</span><span style="color:#d3d0c8;">&quot; = &quot;</span><span style="color:#99cc99;">x86_64</span><span style="color:#d3d0c8;">&quot; ]; then
+</span><span style="color:#d3d0c8;">            </span><span style="color:#f99157;">ARCH</span><span style="color:#d3d0c8;">=&quot;</span><span style="color:#99cc99;">amd64</span><span style="color:#d3d0c8;">&quot;
+</span><span style="color:#d3d0c8;">          elif [ &quot;</span><span style="color:#99cc99;">$ARCH</span><span style="color:#d3d0c8;">&quot; = &quot;</span><span style="color:#99cc99;">aarch64</span><span style="color:#d3d0c8;">&quot; ]; then
+</span><span style="color:#d3d0c8;">            </span><span style="color:#f99157;">ARCH</span><span style="color:#d3d0c8;">=&quot;</span><span style="color:#99cc99;">arm64</span><span style="color:#d3d0c8;">&quot;
+</span><span style="color:#d3d0c8;">          fi
+</span><span style="color:#d3d0c8;">
+</span><span style="color:#d3d0c8;">          </span><span style="color:#cc99cc;">if </span><span style="color:#d3d0c8;">[ &quot;</span><span style="color:#99cc99;">$OS</span><span style="color:#d3d0c8;">&quot; = &quot;</span><span style="color:#99cc99;">windows</span><span style="color:#d3d0c8;">&quot; ]; then
+</span><span style="color:#d3d0c8;">            </span><span style="color:#f99157;">BINARY_NAME</span><span style="color:#d3d0c8;">=&quot;</span><span style="color:#99cc99;">crabodex-${OS}-${ARCH}.exe</span><span style="color:#d3d0c8;">&quot;
+</span><span style="color:#d3d0c8;">          </span><span style="color:#cc99cc;">else
+</span><span style="color:#d3d0c8;">            </span><span style="color:#f99157;">BINARY_NAME</span><span style="color:#d3d0c8;">=&quot;</span><span style="color:#99cc99;">crabodex-${OS}-${ARCH}</span><span style="color:#d3d0c8;">&quot;
+</span><span style="color:#d3d0c8;">          fi
+</span><span style="color:#d3d0c8;">
+</span><span style="color:#d3d0c8;">          </span><span style="color:#f99157;">DOWNLOAD_URL</span><span style="color:#d3d0c8;">=&quot;</span><span style="color:#99cc99;">https://github.com/${{ github.repository }}/releases/download/${RELEASE_TAG}/${BINARY_NAME}</span><span style="color:#d3d0c8;">&quot;
+</span><span style="color:#d3d0c8;">
+</span><span style="color:#d3d0c8;">          echo &quot;</span><span style="color:#99cc99;">Downloading from: $DOWNLOAD_URL</span><span style="color:#d3d0c8;">&quot;
+</span><span style="color:#d3d0c8;">
+</span><span style="color:#d3d0c8;">          curl -L &quot;</span><span style="color:#99cc99;">$DOWNLOAD_URL</span><span style="color:#d3d0c8;">&quot; -o crabodex
+</span><span style="color:#d3d0c8;">
+</span><span style="color:#d3d0c8;">          </span><span style="color:#cc99cc;">if </span><span style="color:#d3d0c8;">[ &quot;</span><span style="color:#99cc99;">$OS</span><span style="color:#d3d0c8;">&quot; != &quot;</span><span style="color:#99cc99;">windows</span><span style="color:#d3d0c8;">&quot; ]; then
+</span><span style="color:#d3d0c8;">            chmod +x crabodex
+</span><span style="color:#d3d0c8;">          fi
+</span><span style="color:#d3d0c8;">
+</span><span style="color:#d3d0c8;">      - name: Verify crabodex
+</span><span style="color:#d3d0c8;">        run: |
+</span><span style="color:#d3d0c8;">          ls -l crabodex*
+</span><span style="color:#d3d0c8;">          file crabodex*
+</span><span style="color:#d3d0c8;">          </span><span style="color:#cc99cc;">if </span><span style="color:#d3d0c8;">[ &quot;</span><span style="color:#99cc99;">$RUNNER_OS</span><span style="color:#d3d0c8;">&quot; != &quot;</span><span style="color:#99cc99;">Windows</span><span style="color:#d3d0c8;">&quot; ]; then
+</span><span style="color:#d3d0c8;">            ./crabodex --version
+</span><span style="color:#d3d0c8;">          </span><span style="color:#cc99cc;">else
+</span><span style="color:#d3d0c8;">            ./crabodex.exe --version
+</span><span style="color:#d3d0c8;">          fi
+</span><span style="color:#d3d0c8;">
+</span><span style="color:#d3d0c8;">      # Generate the documentation using the downloaded binary
+</span><span style="color:#d3d0c8;">      - name: Generate documentation
+</span><span style="color:#d3d0c8;">        env:
+</span><span style="color:#d3d0c8;">          </span><span style="color:#f99157;">REPO_NAME</span><span style="color:#d3d0c8;">: ${{ github.repository }}
+</span><span style="color:#d3d0c8;">          </span><span style="color:#f99157;">REPO_DESCRIPTION</span><span style="color:#d3d0c8;">: ${{ github.event.repository.description }}
+</span><span style="color:#d3d0c8;">          </span><span style="color:#f99157;">GITHUB_SERVER_URL</span><span style="color:#d3d0c8;">: ${{ github.server_url }}
+</span><span style="color:#d3d0c8;">          </span><span style="color:#f99157;">ACTIONS_RUNNER_DEBUG</span><span style="color:#d3d0c8;">: </span><span style="color:#f99157;">true
+</span><span style="color:#d3d0c8;">        # This step generates the documentation, especially the --ignore-folders
+</span><span style="color:#d3d0c8;">        # and choose what to </span><span style="background-color:#f2777a;color:#2d2d2d;">do</span><span style="color:#d3d0c8;"> with the output data
+</span><span style="color:#d3d0c8;">        run: |
+</span><span style="color:#d3d0c8;">          </span><span style="color:#f99157;">COMMIT_HASH_SHORT</span><span style="color:#d3d0c8;">=$(git rev-parse --short </span><span style="color:#f99157;">HEAD</span><span style="color:#d3d0c8;">)
+</span><span style="color:#d3d0c8;">          mkdir docs
+</span><span style="color:#d3d0c8;">          ./crabodex \
+</span><span style="color:#d3d0c8;">            --ignore-folders tests \
+</span><span style="color:#d3d0c8;">            --repo-name &quot;</span><span style="color:#99cc99;">$REPO_NAME</span><span style="color:#d3d0c8;">&quot; \
+</span><span style="color:#d3d0c8;">            --repo-description &quot;</span><span style="color:#99cc99;">$REPO_DESCRIPTION</span><span style="color:#d3d0c8;">&quot; \
+</span><span style="color:#d3d0c8;">            --commit-hash &quot;</span><span style="color:#99cc99;">$COMMIT_HASH_SHORT</span><span style="color:#d3d0c8;">&quot; \
+</span><span style="color:#d3d0c8;">            --repo-url &quot;</span><span style="color:#99cc99;">$GITHUB_SERVER_URL/$REPO_NAME</span><span style="color:#d3d0c8;">&quot; \
+</span><span style="color:#d3d0c8;">            &gt; ./docs/index.html
+</span><span style="color:#d3d0c8;">
+</span><span style="color:#d3d0c8;">      # Deploy the documentation to GitHub Pages
+</span><span style="color:#d3d0c8;">      # This step is optional, you can choose to deploy the documentation anywhere
+</span><span style="color:#d3d0c8;">      - name: Deploy to GitHub Pages
+</span><span style="color:#d3d0c8;">        uses: peaceiris/actions-gh-pages@v4
+</span><span style="color:#d3d0c8;">        with:
+</span><span style="color:#d3d0c8;">          github_token: ${{ secrets.</span><span style="color:#f99157;">GITHUB_TOKEN </span><span style="color:#d3d0c8;">}}
+</span><span style="color:#d3d0c8;">          publish_dir: ./docs
+</span><span style="color:#d3d0c8;">          force_orphan: </span><span style="color:#f99157;">true
+</span></pre>
+<p>In this example, the documentation is simply deployed as a GitHub page. If this is what you want, don’t forget a couple of things :</p>
+<ul>
+<li>Enable GitHub pages in the settings of your repository.</li>
+<li>Allow your actions to write in the repository settings.</li>
+</ul>
+</div>
+<footer>
+</footer>
+</main>
+<script>document.addEventListener('DOMContentLoaded',()=>{const html=document.documentElement;const getCurrentFontSize=()=>parseFloat(window.getComputedStyle(html).fontSize);const setFontSize=(newSize)=>html.style.fontSize=newSize+'px';document.getElementById('increase-font').addEventListener('click',()=>{const currentSize=getCurrentFontSize();setFontSize(Math.min(currentSize+2,24))});document.getElementById('decrease-font').addEventListener('click',()=>{const currentSize=getCurrentFontSize();setFontSize(Math.max(currentSize-2,8))});document.getElementById('menu-toggle').addEventListener('click',()=>{document.querySelector('nav').classList.toggle('active')});window.addEventListener('resize',()=>{document.querySelector('nav').classList.remove('active')});const printBtn=document.getElementById('print-btn');printBtn.addEventListener('click',()=>{window.print()});const setTheme=(isDark)=>{document.body.classList.toggle('dark-mode',isDark);localStorage.setItem('storedTheme',isDark?'dark':'light')};document.getElementById('mode-toggle').addEventListener('click',()=>{setTheme(!document.body.classList.contains('dark-mode'))});const storedTheme=localStorage.getItem('storedTheme');if(storedTheme){setTheme(storedTheme==='dark')}else{setTheme(window.matchMedia('(prefers-color-scheme: dark)').matches)}})</script>
+</body>
+</html>
