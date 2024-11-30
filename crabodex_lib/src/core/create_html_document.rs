@@ -442,6 +442,7 @@ pub fn create_html_document(
             border-left: 3px solid #999;
             padding: 5px 5px 5px 15px;
             background: #66666611;
+            margin-bottom: 20px;
         }}
 
         table {{
